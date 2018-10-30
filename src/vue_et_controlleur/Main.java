@@ -1,4 +1,4 @@
-package application;
+package vue_et_controlleur;
 	
 import javafx.application.Application;
 import javafx.stage.Stage;
