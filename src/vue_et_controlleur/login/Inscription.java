@@ -63,7 +63,7 @@ public class Inscription extends Stage {
 			
 			BorderPane root = new BorderPane();
 			
-			Scene scene = new Scene(root, 410, 307);
+			Scene scene = new Scene(root, 503, 384);
 			
 			GridPane gridPane = new GridPane();
 	        gridPane.setAlignment(Pos.CENTER);
@@ -121,8 +121,8 @@ public class Inscription extends Stage {
 	        rbPrepose.setTextFill(Color.WHITE);
 	        rbAdherent.setTextFill(Color.WHITE);
 	        
-	        rbPrepose.setFont(font(15, FontWeight.BOLD));
-	        rbAdherent.setFont(font(15, FontWeight.BOLD));
+	        rbPrepose.setFont(font(20, FontWeight.BOLD));
+	        rbAdherent.setFont(font(20, FontWeight.BOLD));
 	        
 	        hBoxRadioButton.setAlignment(Pos.CENTER);
 	        hBoxRadioButton.getChildren().addAll(rbPrepose, rbAdherent);
@@ -258,13 +258,23 @@ public class Inscription extends Stage {
 					
 					stage.close();
 					
-					LoginStage.show();
+					try {
+						new Login().start(new Stage());
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 			else if (event.getSource() == btnAnnuler) {
 				stage.close();
 				
-				LoginStage.show();
+				try {
+					new Login().start(new Stage());
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		
