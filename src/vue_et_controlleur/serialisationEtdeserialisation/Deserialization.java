@@ -18,6 +18,9 @@ import classMediateque.Periodique;
 import classMediateque.Pret;
 
 public class Deserialization {
+	
+	private static String strDocuments = "src/modele/documents/";
+	
 public Deserialization(){
 	
 	
@@ -32,7 +35,7 @@ public Deserialization(){
 public static void  DeserialiserPret(){
 	FileInputStream fichier = null;
 	try { 
-		fichier = new FileInputStream("prêt.ser");
+		fichier = new FileInputStream(strDocuments + "prêt.ser");
 	} catch (FileNotFoundException e1) {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
@@ -84,7 +87,7 @@ public static void  DeserialiserPret(){
 public static void  DeserialiserDVD(){
 	FileInputStream fichier = null;
 	try { 
-		fichier = new FileInputStream("DVD.ser");
+		fichier = new FileInputStream(strDocuments + "DVD.ser");
 	} catch (FileNotFoundException e1) {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
@@ -117,7 +120,7 @@ public static void  DeserialiserDVD(){
 public static void  DeserialiserLivre(){
 	FileInputStream fichier = null;
 	try { 
-		fichier = new FileInputStream("livre.ser");
+		fichier = new FileInputStream(strDocuments + "livre.ser");
 	} catch (FileNotFoundException e1) {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
@@ -152,7 +155,7 @@ public static void  DeserialiserLivre(){
 public static void  DeserialiserPeriodique(){
 	FileInputStream fichier = null;
 	try { 
-		fichier = new FileInputStream("periodique.ser");
+		fichier = new FileInputStream(strDocuments + "periodique.ser");
 	} catch (FileNotFoundException e1) {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
@@ -185,7 +188,7 @@ public static void  DeserialiserPeriodique(){
 public static void  DeserialiserAdherent(){
 	FileInputStream fichier = null;
 	try { 
-		fichier = new FileInputStream("adhérent.ser");
+		fichier = new FileInputStream(strDocuments + "adhérent.ser");
 	} catch (FileNotFoundException e1) {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();

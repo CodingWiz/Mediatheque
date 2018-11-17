@@ -8,7 +8,6 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -34,24 +33,23 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import serialisationEtdeserialisation.FirstSerializerDocument;
-import serialisationEtdeserialisation.LectureDesFichiers;
+import vue_et_controlleur.serialisationEtdeserialisation.FirstSerializerDocument;
+import vue_et_controlleur.serialisationEtdeserialisation.LectureDesFichiers;
 
 public class Login extends Application {
 	
-	private String strModele = "./modele/", 
-			strVueEtControlleur = "./vue_et_controlleur/";
+	private String strImages = "modele/images/", 
+			strDocuments = "src/modele/documents/";
 	
 	private Stage stage;
 	
-	private boolean blnProfPasDeStyle = false;
+	private boolean blnProfPasDeStyle = true;
 	
 	private GridPane gridPane;
 	
@@ -171,7 +169,7 @@ public class Login extends Application {
         btnEnregistrement.setFont(font(15, FontWeight.BOLD));
         
         btnConnexion.setGraphic(
-        		new ImageView(new Image(strModele + "secure-icon-lock-secure-icon-27.png", 20, 20, false, false)));
+        		new ImageView(new Image(strImages + "secure-icon-lock-secure-icon-27.png", 20, 20, false, false)));
         
         btnConnexion.setOnAction(new GestionConnexion());
         btnEnregistrement.setOnAction(new GestionConnexion());
@@ -264,7 +262,7 @@ public class Login extends Application {
         root.setCenter(gridPane);
         root.setBottom(lblMsgErreur);
         root.setBackground(new Background(
-				new BackgroundImage(new Image(strModele + "page-ipad-ipad-ipad-mini-library-wallpapers-hd-desktop-1024768-library-clipart-background-1024_768.jpg"), 
+				new BackgroundImage(new Image(strImages + "page-ipad-ipad-ipad-mini-library-wallpapers-hd-desktop-1024768-library-clipart-background-1024_768.jpg"), 
 												BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, 
 												new BackgroundSize(scene.getWidth()+10, scene.getHeight()+10, false, false, false, false))));
         
@@ -277,16 +275,28 @@ public class Login extends Application {
 	}
 	
 	private void serialisation() {
-		/*LectureDesFichiers.LireFichierAdhérant(strModele + "Adhérent.txt");
-		LectureDesFichiers.LireFichierDVD(strModele + "DVD.txt");
-		LectureDesFichiers.LireFichierLivres(strModele + "Livres.txt");
-		LectureDesFichiers.LireFichierPeriodique(strModele + "Periodiques.txt");
-		LectureDesFichiers.LireFichierPrepose(strModele + "Preposé.txt");
+		/*File file = new File(".");
+		for(String fileNames : file.list()) System.out.println(fileNames);*/
 		
-		File fichier = new File(strModele + "DVD.ser");
+		LectureDesFichiers.LireFichierAdhérant(strDocuments + "Adhérent.txt");
+		LectureDesFichiers.LireFichierDVD(strDocuments + "DVD.txt");
+		LectureDesFichiers.LireFichierLivres(strDocuments + "Livres.txt");
+		LectureDesFichiers.LireFichierPeriodique(strDocuments + "Periodiques.txt");
+		LectureDesFichiers.LireFichierPrepose(strDocuments + "Preposé.txt");
+		
+		File fichier = new File(strDocuments + "DVD.ser");
 		
 		if(!fichier.exists()){
 			FirstSerializerDocument.getInstance();
+		}
+		
+		/*File fichier = new File(strDocuments + "DVD.ser");
+		
+		if(fichier.exists()){
+			System.out.println("Existe");
+		}
+		else {
+			System.out.println("Existe pas");
 		}*/
 	}
 	
@@ -506,7 +516,7 @@ public class Login extends Application {
 				
 				stage.close();
 				
-				new Inscription(blnProfPasDeStyle, stage).show();
+				new Inscription(blnProfPasDeStyle).show();
 			}
 		}
 		

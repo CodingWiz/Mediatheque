@@ -1,11 +1,10 @@
 /Compte/
-/Thumbs.db
 /bibliotheque/
 /classMediateque/
 /gererAdherent/
 /gererDocument/
 /gererPret/
 /login/
-/modele/
 /serialisationEtdeserialisation/
 /vue_et_controlleur/
+/modele/

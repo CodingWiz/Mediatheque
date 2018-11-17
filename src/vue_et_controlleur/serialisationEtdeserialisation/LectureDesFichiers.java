@@ -30,6 +30,8 @@ public class LectureDesFichiers {
 	public static int intNombreDesAdhérents = 0;
 	public static int intNombreDesPrets = 0;
 	
+	private String strDocuments = "modele/documents/";
+	
 	/*public static  ArrayList<Pret> LireFichierPret(String strNomFichier) {
 		
 		ArrayList<Pret>lstPretATrouver = new ArrayList<Pret>();

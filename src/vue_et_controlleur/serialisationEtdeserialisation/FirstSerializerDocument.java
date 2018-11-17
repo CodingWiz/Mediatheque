@@ -16,14 +16,14 @@ import gererPret.ListePret;
 
 public class FirstSerializerDocument {
 	
-	private String strModele = "./modele/";
+	private String strDocuments = "src/modele/documents/";
 	
 	 private static FirstSerializerDocument instance;
-	 ArrayList<Prepose> lstPrepose = LectureDesFichiers.LireFichierPrepose(strModele + "Preposé.txt");
-	 ArrayList<Adherent> lstAdherent = LectureDesFichiers.LireFichierAdhérant(strModele + "Adhérent.txt");
-	 ArrayList<DVD> lstDVD = LectureDesFichiers.LireFichierDVD(strModele + "DVD.txt");
-	 ArrayList<Livre> lstLivre = LectureDesFichiers.LireFichierLivres(strModele + "Livres.txt");
-	 ArrayList<Periodique> lstPeriodique = LectureDesFichiers.LireFichierPeriodique(strModele + "Periodiques.txt");
+	 ArrayList<Prepose> lstPrepose = LectureDesFichiers.LireFichierPrepose(strDocuments + "Preposé.txt");
+	 ArrayList<Adherent> lstAdherent = LectureDesFichiers.LireFichierAdhérant(strDocuments + "Adhérent.txt");
+	 ArrayList<DVD> lstDVD = LectureDesFichiers.LireFichierDVD(strDocuments + "DVD.txt");
+	 ArrayList<Livre> lstLivre = LectureDesFichiers.LireFichierLivres(strDocuments + "Livres.txt");
+	 ArrayList<Periodique> lstPeriodique = LectureDesFichiers.LireFichierPeriodique(strDocuments + "Periodiques.txt");
 	 
 	 
 	 
@@ -75,25 +75,25 @@ public class FirstSerializerDocument {
 		// TODO Auto-generated method stub
 		try {
 			
-			FileOutputStream fichierDocument = new FileOutputStream(strModele + "document.ser");    
+			FileOutputStream fichierDocument = new FileOutputStream(strDocuments + "document.ser");    
 			ObjectOutputStream osDoc = new ObjectOutputStream(fichierDocument);
 			
-			FileOutputStream fichierDVD = new FileOutputStream(strModele + "DVD.ser");    
+			FileOutputStream fichierDVD = new FileOutputStream(strDocuments + "DVD.ser");    
 			ObjectOutputStream osDVD = new ObjectOutputStream(fichierDVD);
 			
-			FileOutputStream fichierLivre = new FileOutputStream(strModele + "livre.ser");    
+			FileOutputStream fichierLivre = new FileOutputStream(strDocuments + "livre.ser");    
 			ObjectOutputStream osLivre = new ObjectOutputStream(fichierLivre);
 
-			FileOutputStream fichierPeriodique = new FileOutputStream(strModele + "periodique.ser");    
+			FileOutputStream fichierPeriodique = new FileOutputStream(strDocuments + "periodique.ser");    
 			ObjectOutputStream osPeriodique = new ObjectOutputStream(fichierPeriodique);
 			
-			FileOutputStream fichierAdherent = new FileOutputStream(strModele + "adhérent.ser");    
+			FileOutputStream fichierAdherent = new FileOutputStream(strDocuments + "adhérent.ser");    
 			ObjectOutputStream osAdherent = new ObjectOutputStream(fichierAdherent);
 			
-			FileOutputStream fichierPrepose = new FileOutputStream(strModele + "preposé.ser");    
+			FileOutputStream fichierPrepose = new FileOutputStream(strDocuments + "preposé.ser");    
 			ObjectOutputStream osPrepose = new ObjectOutputStream(fichierPrepose);
 			
-			FileOutputStream fichierPret = new FileOutputStream(strModele + "prêt.ser");    
+			FileOutputStream fichierPret = new FileOutputStream(strDocuments + "prêt.ser");    
 			ObjectOutputStream osPret = new ObjectOutputStream(fichierPret);
 			
 			

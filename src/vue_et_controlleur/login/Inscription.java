@@ -37,9 +37,9 @@ import javafx.util.Duration;
 
 public class Inscription extends Stage {
 	
-	private String strModele = "./modele/";
+	private String strModele = "modele/images/";
 	
-	private Stage stage, LoginStage;
+	private Stage stage;
 	
 	private boolean blnProf;
 	
@@ -55,10 +55,9 @@ public class Inscription extends Stage {
 	
 	private Button btnInscription, btnAnnuler;
 	
-	public Inscription(boolean blnProfPasDeStyle, Stage LoginStage) {
+	public Inscription(boolean blnProfPasDeStyle) {
 		try {
 			this.stage = this;
-			this.LoginStage = LoginStage;
 			this.blnProf = blnProfPasDeStyle;
 			
 			BorderPane root = new BorderPane();
@@ -289,7 +288,12 @@ public class Inscription extends Stage {
 					
 					stage.close();
 					
-					LoginStage.show();
+					try {
+						new Login().start(new Stage());
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}
