@@ -34,4 +34,9 @@ private String strPassword;
 		this.strPassword = strPassword;
 	}
 
+	@Override
+	public String toString() {
+		return "No Prepose : " + strNoPrepose + "\nPassword :" + strPassword;
+	}
+
 }

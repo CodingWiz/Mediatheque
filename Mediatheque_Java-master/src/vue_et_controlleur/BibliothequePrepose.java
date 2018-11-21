@@ -45,7 +45,7 @@ import Objet.ListDocument;
 public class BibliothequePrepose extends Stage {
 
 	private TableView<Document> tableDocument = new TableView<Document>();
-	ArrayList<Document> lstAllDocument = new ArrayList<Document>(LectureDesFichiers.intNombreDesDocuments);
+	ArrayList<Document> lstAllDocument = new ArrayList<Document>(ListDocument.getLstAllDocument().size());
 	ComboBox<String> comboBox = null;
 
 	// ArrayList<Livre> lstAllLivre =

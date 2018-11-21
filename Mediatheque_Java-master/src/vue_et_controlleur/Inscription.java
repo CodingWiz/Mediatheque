@@ -1,5 +1,11 @@
 package vue_et_controlleur;
 
+import java.util.Random;
+
+import Objet.Adherent;
+import Objet.ListeAdherant;
+import Objet.ListePrepose;
+import Objet.Prepose;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -431,6 +437,9 @@ public class Inscription extends Stage {
 			}
 		}
 		
+		
+	
+		
 		return blnReturn;
 	}
 	
@@ -438,6 +447,23 @@ public class Inscription extends Stage {
 	 * TODO ajout des employées dans les fichiers sérialisés
 	 */
 	private void ajoutEmploye() {
+		if(rbAdherent.isSelected()) {
+			ListeAdherant.ajouterAdherant(new Adherent(textFieldNom.getText(), textFieldPrenom.getText(), textFieldAdresse.getText() ,textFieldNoTel.getText()));
+		}
+		
+		else if(rbPrepose.isSelected()) {
+			Random noEmploye = new Random();
+			
+			int bonNo = noEmploye.nextInt((9999999-1000000) + 1) + 1000000;
+			for(int i = 0; i<ListePrepose.getLstPreposeATrouver().size(); i++) {
+				if(ListePrepose.getLstPreposeATrouver().get(i).getStrNoPrepose().equals(Integer.toString(bonNo))){
+					bonNo = noEmploye.nextInt((9999999-1000000) + 1) + 1000000;
+					i = 0;
+				}			
+			}
+			ListePrepose.ajouterPrepose(new Prepose(textFieldNom.getText(), textFieldPrenom.getText(), textFieldAdresse.getText() ,textFieldNoTel.getText(), Integer.toString(bonNo), pwdFieldPreposePwd.getText()));
+		System.out.println("Votre numéro d'employé est : " + Integer.toString(bonNo));
+		}
 		
 	}
 	

@@ -2,6 +2,7 @@ package vue_et_controlleur;
 
 import java.io.File;
 
+import Objet.ListePrepose;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -79,7 +80,6 @@ public class Login extends Application {
 			booPremiereFois = false;
 			File fichier = new File("DVD.ser");
 			if (!fichier.exists()) {
-
 				FirstSerializerDocument.getInstance();
 			} else {
 				Deserialization.DeserialiserDVD();
@@ -389,10 +389,25 @@ public class Login extends Application {
 	 */
 	private boolean connexion() {
 		boolean blnConnexion = true;
-
+boolean booOk = false;
 		if (rbPrepose.isSelected()) {
-			if (!textFieldPreposeNoUser.getText().isEmpty() && !pwdFieldPreposePwd.getText().isEmpty()) {
-				if (!(textFieldPreposeNoUser.getText().equals("1") && pwdFieldPreposePwd.getText().equals("1"))) {
+			if (!textFieldPreposeNoUser.getText().isEmpty() && !pwdFieldPreposePwd.getText().isEmpty()) {			
+					String noEmp = textFieldPreposeNoUser.getText();
+					String mdp = pwdFieldPreposePwd.getText();					
+					for(int i = 0; i<ListePrepose.getLstPreposeATrouver().size(); i++) {
+						if(ListePrepose.getLstPreposeATrouver().get(i).getStrNoPrepose().equals(noEmp)) {							
+							if(ListePrepose.getLstPreposeATrouver().get(i).getStrPassword().equals(mdp)) {
+								booOk = true;
+								//break;
+								/*stage.close();									
+								new BibliothequePrepose().show();*/
+							}
+							
+						}
+						
+					}							
+				
+				if (!booOk) {
 					blnConnexion = false;
 					shake("No. de l'employé et/ou mot de passe erroné", true);
 				}
@@ -506,9 +521,9 @@ public class Login extends Application {
 			} else if (event.getSource() == btnConnexion) {
 				if (connexion()) {
 					retourSansErreur();
-					stage.close();
-					
+					stage.close();									
 					new BibliothequePrepose().show();
+				
 				}
 			} else if (event.getSource() == btnInscription) {
 				retourSansErreur();
