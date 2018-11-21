@@ -6,22 +6,26 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import Objet.Adherent;
 import Objet.DVD;
 import Objet.Document;
 import Objet.LectureDesFichiers;
+import Objet.ListeAdherant;
 import Objet.ListeDVD;
 import Objet.ListeLivre;
 import Objet.ListePeriodique;
+import Objet.ListePrepose;
 import Objet.Livre;
 import Objet.Periodique;
+import Objet.Prepose;
 /*import classMediateque.Pret;
 import gererPret.ListePret;*/
 
 public class Serialisation {
 	
 	 private static Serialisation instance;
-	/* ArrayList<Prepose> lstPrepose = LectureDesFichiers.LireFichierPrepose("Preposé.txt");
-	 ArrayList<Adherent> lstAdherent = LectureDesFichiers.LireFichierAdhérant("Adhérent.txt");*/
+	 ArrayList<Prepose> lstPrepose = ListePrepose.getLstPreposeATrouver();
+	 ArrayList<Adherent> lstAdherent = ListeAdherant.getLstAdherantATrouver();
 	 ArrayList<DVD> lstDVD = ListeDVD.getLstDVDATrouver();
 	 ArrayList<Livre> lstLivre = ListeLivre.getLstLivreATrouver();
 	 ArrayList<Periodique> lstPeriodique = ListePeriodique.getLstPeriodiqueATrouver();
@@ -88,6 +92,13 @@ public class Serialisation {
 			if (filePer.exists()) {
 				filePer.delete();
 			}
+			File fileAdhrant = new File("adherant.ser");
+			if (fileAdhrant.exists()) {
+				fileAdhrant.delete();
+			}File filePrepose = new File("prepose.ser");
+			if (filePrepose.exists()) {
+				filePrepose.delete();
+			}
 			
 			FileOutputStream fichierDocument = new FileOutputStream("document.ser");			
 			ObjectOutputStream osDoc = new ObjectOutputStream(fichierDocument);
@@ -106,13 +117,13 @@ public class Serialisation {
 			
 
 			
-			/*FileOutputStream fichierAdherent = new FileOutputStream("adhérent.ser");    
+			FileOutputStream fichierAdherent = new FileOutputStream("adherant.ser");    
 			ObjectOutputStream osAdherent = new ObjectOutputStream(fichierAdherent);
 			
-			FileOutputStream fichierPrepose = new FileOutputStream("preposé.ser");    
+			FileOutputStream fichierPrepose = new FileOutputStream("prepose.ser");    
 			ObjectOutputStream osPrepose = new ObjectOutputStream(fichierPrepose);
 			
-			FileOutputStream fichierPret = new FileOutputStream("prêt.ser");    
+			/*FileOutputStream fichierPret = new FileOutputStream("prêt.ser");    
 			ObjectOutputStream osPret = new ObjectOutputStream(fichierPret);*/
 			
 			
@@ -126,32 +137,24 @@ public class Serialisation {
 			
 			
 			
-			/*int intNombrePrepose =  LectureDesFichiers.intNombreDesPreposés;
-			
+			int intNombrePrepose =  lstPrepose.size();			
 			for (int i = 0; i < intNombrePrepose; i++){
-				Prepose pre = new Prepose(lstPrepose.get(i).getStrNom(), lstPrepose.get(i).getStrPrenom(), lstPrepose.get(i).getStrAdresse(), lstPrepose.get(i).getStrTelephone(), lstPrepose.get(i).getStrNoPrepose(), lstPrepose.get(i).getStrPassword());
-				
+				Prepose pre = new Prepose(lstPrepose.get(i).getStrNom(), lstPrepose.get(i).getStrPrenom(), lstPrepose.get(i).getStrAdresse(), lstPrepose.get(i).getStrTelephone(), lstPrepose.get(i).getStrNoPrepose(), lstPrepose.get(i).getStrPassword());				
 				osPrepose.writeObject(pre);
-			}
+			}			
+			osPrepose.close();
 			
-			osPrepose.close();*/
 			
-			
-			/*int intNombreAdherent =  LectureDesFichiers.intNombreDesAdhérents;
-			
+			int intNombreAdherent =  lstAdherent.size();			
 			for (int i = 0; i < intNombreAdherent; i++){
-				Adherent adh = new Adherent(lstAdherent.get(i).getStrNom(), lstAdherent.get(i).getStrPrenom(), lstAdherent.get(i).getStrAdresse(), lstAdherent.get(i).getStrTelephone(), lstAdherent.get(i).getStrNoAdherent(), lstAdherent.get(i).getStrPassword());
-				
+				Adherent adh = new Adherent(lstAdherent.get(i).getStrNom(), lstAdherent.get(i).getStrPrenom(), lstAdherent.get(i).getStrAdresse(), lstAdherent.get(i).getStrTelephone());			
 				osAdherent.writeObject(adh);
-			}
-			
-			osAdherent.close();*/
-			
+			}			
+			osAdherent.close();
 			
 			
-			int intNombreDVD =  lstDVD.size();
-			System.out.println(intNombreDVD);
 			
+			int intNombreDVD =  lstDVD.size();			
 			for (int i = 0; i < intNombreDVD; i++){
 				Document doc = new Document(lstDVD.get(i).getNoDoc(),lstDVD.get(i).getTitre(),lstDVD.get(i).getDateParution(),lstDVD.get(i).getEtat(),lstDVD.get(i).getMotsclés());
 				DVD dvd = new DVD(lstDVD.get(i).getNoDoc(),lstDVD.get(i).getTitre(),lstDVD.get(i).getDateParution(),lstDVD.get(i).getEtat(),lstDVD.get(i).getMotsclés(),lstDVD.get(i).getNbDisque(),lstDVD.get(i).getRealisateur());
@@ -163,8 +166,7 @@ public class Serialisation {
 			osDVD.close();
 			
 			
-			int intNombreLivre =  lstLivre.size();
-			
+			int intNombreLivre =  lstLivre.size();	
 			for (int i = 0; i < intNombreLivre; i++){
 				Document doc = new Document(lstLivre.get(i).getNoDoc(),lstLivre.get(i).getTitre(),lstLivre.get(i).getDateParution(),lstLivre.get(i).getEtat(),lstLivre.get(i).getMotsclés());
 				Livre livre = new Livre(lstLivre.get(i).getNoDoc(),lstLivre.get(i).getTitre(),lstLivre.get(i).getDateParution(),lstLivre.get(i).getEtat(),lstLivre.get(i).getMotsclés(),lstLivre.get(i).getAuteur());
@@ -176,8 +178,7 @@ public class Serialisation {
 			osLivre.close();
 			
 			
-			int intNombrePeriodique =  lstPeriodique.size();
-			
+			int intNombrePeriodique =  lstPeriodique.size();			
 			for (int i = 0; i < intNombrePeriodique; i++){
 				Document doc = new Document(lstPeriodique.get(i).getNoDoc(),lstPeriodique.get(i).getTitre(),lstPeriodique.get(i).getDateParution(),lstPeriodique.get(i).getEtat(),lstPeriodique.get(i).getMotsclés());
 				Periodique periodique = new Periodique(lstPeriodique.get(i).getNoDoc(),lstPeriodique.get(i).getTitre(),lstPeriodique.get(i).getDateParution(),lstPeriodique.get(i).getEtat(),lstPeriodique.get(i).getMotsclés(),lstPeriodique.get(i).getNoVolume(),lstPeriodique.get(i).getNoPeriodique());

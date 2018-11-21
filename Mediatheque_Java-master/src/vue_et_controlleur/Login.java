@@ -85,6 +85,8 @@ public class Login extends Application {
 				Deserialization.DeserialiserLivre();
 				Deserialization.DeserialiserPeriodique();
 				Deserialization.DeserialiserDocument();
+				Deserialization.DeserialiserAdherant();
+				Deserialization.DeserialiserPrepose();
 			}
 		}
 
@@ -512,7 +514,7 @@ public class Login extends Application {
 					afficheMenuPrincipal();
 					retourSansErreur();
 					stage.close();
-					new BibliothequePrepose().show();
+					new BibliothequeAdherant().show();
 				}
 			} else if (event.getSource() == btnEnregistrement) {
 				retourSansErreur();
@@ -531,6 +533,7 @@ public class Login extends Application {
 					afficheMenuPrincipal();
 					retourSansErreur();
 					stage.close();
+					new BibliothequePrepose().show();
 				}
 			}
 		}

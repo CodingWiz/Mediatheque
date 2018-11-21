@@ -3,17 +3,21 @@ package vue_et_controlleur;
 import Objet.ListeDVD;
 import Objet.ListeLivre;
 import Objet.ListePeriodique;
+import Objet.ListePrepose;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import Objet.Adherent;
 import Objet.DVD;
 import Objet.Document;
 import Objet.ListDocument;
+import Objet.ListeAdherant;
 import Objet.Livre;
 import Objet.Periodique;
+import Objet.Prepose;
 
 public class Deserialization {
 	public Deserialization() {
@@ -158,6 +162,67 @@ public class Deserialization {
 		try {
 			while ((document = (Document) is.readObject()) != null) {
 				ListDocument.ajouterDocument(document);;
+			}
+		} catch (IOException e) {
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
+	
+	public static void DeserialiserAdherant() {
+		FileInputStream fichier = null;
+		try {
+			fichier = new FileInputStream("adherant.ser");
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		ObjectInputStream is = null;
+		try {
+			is = new ObjectInputStream(fichier);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Adherent adherant;
+		try {
+			while ((adherant = (Adherent) is.readObject()) != null) {
+				ListeAdherant.ajouterAdherant(adherant);
+			}
+		} catch (IOException e) {
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
+	public static void DeserialiserPrepose() {
+		FileInputStream fichier = null;
+		try {
+			fichier = new FileInputStream("prepose.ser");
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		ObjectInputStream is = null;
+		try {
+			is = new ObjectInputStream(fichier);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Prepose prepose;
+		try {
+			while ((prepose = (Prepose) is.readObject()) != null) {
+				ListePrepose.ajouterPrepose(prepose);
 			}
 		} catch (IOException e) {
 		} catch (ClassNotFoundException e) {

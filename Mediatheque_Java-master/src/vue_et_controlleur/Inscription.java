@@ -1,5 +1,9 @@
 package vue_et_controlleur;
 
+import Objet.Adherent;
+import Objet.ListeAdherant;
+import Objet.ListePrepose;
+import Objet.Prepose;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -237,6 +241,17 @@ public class Inscription extends Stage {
 			blnReturn = false;
 			shake("Veillez choisir votre type de travail");
 		}
+		
+		if(blnReturn) {
+			if(rbPrepose.isSelected()){
+				//ListePrepose.ajouterPrepose(new Prepose(textFieldNom.getText(), textFieldPrenom.getText(), textFieldAdresse.getText(), textFieldNoTel.getText(), text, tex));
+			}
+			else if(rbAdherent.isSelected()) {
+				ListeAdherant.ajouterAdherant(new Adherent(textFieldNom.getText(), textFieldPrenom.getText(), textFieldAdresse.getText(), textFieldNoTel.getText()));
+			}
+		}
+		
+		
 		
 		return blnReturn;
 	}

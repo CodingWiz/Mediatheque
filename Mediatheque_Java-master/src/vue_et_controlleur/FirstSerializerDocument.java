@@ -5,19 +5,21 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import Objet.Adherent;
 import Objet.DVD;
 import Objet.Document;
 import Objet.LectureDesFichiers;
 import Objet.Livre;
 import Objet.Periodique;
+import Objet.Prepose;
 /*import classMediateque.Pret;
 import gererPret.ListePret;*/
 
 public class FirstSerializerDocument {
 	
 	 private static FirstSerializerDocument instance;
-	/* ArrayList<Prepose> lstPrepose = LectureDesFichiers.LireFichierPrepose("Preposé.txt");
-	 ArrayList<Adherent> lstAdherent = LectureDesFichiers.LireFichierAdhérant("Adhérent.txt");*/
+	 //ArrayList<Prepose> lstPrepose = LectureDesFichiers.LireFichierPrepose("Preposé.txt");
+	// ArrayList<Adherent> lstAdherent = LectureDesFichiers.LireFichierAdhérant("Adhérent.txt");
 	 ArrayList<DVD> lstDVD = LectureDesFichiers.LireFichierDVD("DVD.txt");
 	 ArrayList<Livre> lstLivre = LectureDesFichiers.LireFichierLivres("Livres.txt");
 	 ArrayList<Periodique> lstPeriodique = LectureDesFichiers.LireFichierPeriodique("Periodiques.txt");
@@ -84,13 +86,13 @@ public class FirstSerializerDocument {
 			FileOutputStream fichierPeriodique = new FileOutputStream("periodique.ser");    
 			ObjectOutputStream osPeriodique = new ObjectOutputStream(fichierPeriodique);
 			
-			/*FileOutputStream fichierAdherent = new FileOutputStream("adhérent.ser");    
+			FileOutputStream fichierAdherent = new FileOutputStream("adherant.ser");    
 			ObjectOutputStream osAdherent = new ObjectOutputStream(fichierAdherent);
 			
-			FileOutputStream fichierPrepose = new FileOutputStream("preposé.ser");    
+			FileOutputStream fichierPrepose = new FileOutputStream("prepose.ser");    
 			ObjectOutputStream osPrepose = new ObjectOutputStream(fichierPrepose);
 			
-			FileOutputStream fichierPret = new FileOutputStream("prêt.ser");    
+			/*FileOutputStream fichierPret = new FileOutputStream("prêt.ser");    
 			ObjectOutputStream osPret = new ObjectOutputStream(fichierPret);*/
 			
 			
