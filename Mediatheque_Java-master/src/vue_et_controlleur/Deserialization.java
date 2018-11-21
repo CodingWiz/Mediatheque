@@ -4,6 +4,7 @@ import Objet.ListeDVD;
 import Objet.ListeLivre;
 import Objet.ListePeriodique;
 import Objet.ListePrepose;
+import Objet.ListePret;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,6 +22,7 @@ import Objet.ListeAdherant;
 import Objet.Livre;
 import Objet.Periodique;
 import Objet.Prepose;
+import Objet.Pret;
 
 public class Deserialization {
 	public Deserialization() {
@@ -63,7 +65,6 @@ public class Deserialization {
 	 * }
 	 */
 
-	@SuppressWarnings("resource")
 	public static void DeserialiserDVD() {
 		/*File fileDVD = new File("DVD.ser");
 		if (fileDVD.exists()) {
@@ -105,7 +106,6 @@ public class Deserialization {
 		}
 	}
 
-	@SuppressWarnings("resource")
 	public static void DeserialiserLivre() {
 		
 		/*File fileLivre = new File("livre.ser");
@@ -148,7 +148,6 @@ public class Deserialization {
 		}
 	}
 
-	@SuppressWarnings("resource")
 	public static void DeserialiserPeriodique() {
 		/*
 		File filePer = new File("periodique.ser");
@@ -192,7 +191,6 @@ public class Deserialization {
 	}
 	
 	
-	@SuppressWarnings("resource")
 	public static void DeserialiserDocument() {
 		/*
 		File fileDocument = new File("document.ser");
@@ -239,7 +237,6 @@ public class Deserialization {
 	
 	
 	
-	@SuppressWarnings("resource")
 	public static void DeserialiserAdherant() {
 		/*
 		File fileAdhrant = new File("adherant.ser");
@@ -284,7 +281,6 @@ public class Deserialization {
 	
 	
 	
-	@SuppressWarnings("resource")
 	public static void DeserialiserPrepose() {
 		/*
 		File filePrepose = new File("prepose.ser");
@@ -323,6 +319,54 @@ public class Deserialization {
 			while ((prepose = (Prepose) is.readObject()) != null) {
 				ListePrepose.ajouterPrepose(prepose);
 				System.out.println(prepose);
+			}
+		} catch (IOException e) {
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	public static void DeserialiserPret() {
+		/*
+		File filePrepose = new File("prepose.ser");
+		if (filePrepose.exists()) {
+			filePrepose.delete();
+		}
+
+		
+		
+		try {
+			new ObjectOutputStream(new FileOutputStream("prepose.ser"));
+		} catch (FileNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}*/
+		FileInputStream fichier = null;
+		try {
+			fichier = new FileInputStream("pret.ser");
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			System.out.println("pret");
+		}
+
+		ObjectInputStream is = null;
+		try {
+			is = new ObjectInputStream(fichier);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Pret pret;
+		try {
+			while ((pret = (Pret) is.readObject()) != null) {
+				ListePret.ajouterPret(pret);
+				//System.out.println(pret);
 			}
 		} catch (IOException e) {
 		} catch (ClassNotFoundException e) {

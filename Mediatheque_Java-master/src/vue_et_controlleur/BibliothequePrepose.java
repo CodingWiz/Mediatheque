@@ -3,6 +3,7 @@ package vue_et_controlleur;
 import java.util.ArrayList;
 
 import Objet.DVD;
+import Objet.Adherent;
 import Objet.Document;
 import Objet.Livre;
 import Objet.Periodique;
@@ -39,11 +40,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import Objet.LectureDesFichiers;
 import Objet.ListDocument;
+import Objet.ListeAdherant;
 
 public class BibliothequePrepose extends Stage {
-
+	public static Document document = null;
 	private TableView<Document> tableDocument = new TableView<Document>();
 	ArrayList<Document> lstAllDocument = new ArrayList<Document>(ListDocument.getLstAllDocument().size());
 	ComboBox<String> comboBox = null;
@@ -52,7 +53,7 @@ public class BibliothequePrepose extends Stage {
 	// LectureDesFichiers.LireFichierLivres("Livres.txt");
 	private ObservableList<Document> documents = FXCollections.observableArrayList(ListDocument.getLstAllDocument());
 	ListView<Document> listView = new ListView<>(documents);
-	private TableView<Periodique> tablePeriodique = new TableView<Periodique>();
+	public TableView<Periodique> tablePeriodique = new TableView<Periodique>();
 	private ObservableList<Periodique> periodique = FXCollections
 			.observableArrayList(ListePeriodique.getLstPeriodiqueATrouver());
 	private TableView<Livre> tableLivre = new TableView<Livre>();
@@ -123,7 +124,7 @@ public class BibliothequePrepose extends Stage {
 	private VBox createVboxFiltres() {
 		VBox vBox = new VBox();
 		vBox.setPadding(new Insets(10));
-		vBox.setSpacing(20);
+		vBox.setSpacing(10);
 		vBox.setBorder(new Border(
 				new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 		vBox.setMaxWidth(300);
@@ -139,19 +140,55 @@ public class BibliothequePrepose extends Stage {
 			comboBox.setValue("Tous");
 		});
 
+		Button btnAjouterPret = new Button("Ajouter un prêt");
+		btnAjouterPret.setOnAction(e -> {
+			document = tableDocument.getSelectionModel().getSelectedItem();
+			if (document == null) {
+				Alert alertAttention = new Alert(AlertType.WARNING);
+				alertAttention.setTitle("Attention");
+				alertAttention.setHeaderText("Attention");
+				alertAttention.setContentText("Vous devez sélectionner le document que vous aimeriez emprunter");
+				alertAttention.showAndWait();
+			} else {
+				if (!document.getEtat().equals("Disponible")) {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Erreur");
+					alert.setHeaderText("Erreur");
+					alert.setContentText("Le document sélectionné n'est pas disponible");
+					alert.showAndWait();
+				} else {
+					Alert alert = new Alert(AlertType.CONFIRMATION);
+					alert.setTitle("Confirmation");
+					alert.setHeaderText("Confirmation");
+					alert.setContentText("Êtes vous sur de vouloir emprunter ce document ?");
+					alert.showAndWait().ifPresent(response -> {
+						if (response == ButtonType.OK) {
+							// this.close();
+							new AjouterPret().show();
+						}
+					});
+				}
+			}
+
+		});
+
 		Button btnNouveauDocument = new Button("Ajouter un document");
 		btnNouveauDocument.setOnAction(e -> {
+
 			this.close();
-			new Ajouter().show();
+			new AjouterDocument().show();
 		});
 
 		Button btnSupprimerDocument = new Button("Supprimer un document");
 		btnSupprimerDocument.setOnAction(e -> {
 			// System.out.println("Allo");
 			Document documentSelectionne = tableDocument.getSelectionModel().getSelectedItem();
-			/*DVD dvdSelectionne = tableDVD.getSelectionModel().getSelectedItem();
-			Livre livreSelectionne = tableLivre.getSelectionModel().getSelectedItem();
-			Periodique periodiqueSelectionne = tablePeriodique.getSelectionModel().getSelectedItem();*/
+			/*
+			 * DVD dvdSelectionne = tableDVD.getSelectionModel().getSelectedItem(); Livre
+			 * livreSelectionne = tableLivre.getSelectionModel().getSelectedItem();
+			 * Periodique periodiqueSelectionne =
+			 * tablePeriodique.getSelectionModel().getSelectedItem();
+			 */
 
 			if (documentSelectionne != null) {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -183,61 +220,39 @@ public class BibliothequePrepose extends Stage {
 									ListePeriodique.supprimerPeriodique(p);
 								}
 							}
-						}						
+						}
 					}
 				});
 
-			} /*else if (dvdSelectionne != null) {
-				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Confirmation");
-				alert.setHeaderText("Confirmation");
-				alert.setContentText("Êtes vous sur de vouloir vous supprimer ce DVD ?");
-				alert.showAndWait().ifPresent(response -> {
-					if (response == ButtonType.OK) {
-						String strNoDVD = dvdSelectionne.getNoDoc();
-						ListeDVD.supprimerDVD(dvdSelectionne);
-						for (Document d : documents) {
-							if (d.getNoDoc().equals(strNoDVD)) {
-								ListDocument.supprimerDocument(d);
-							}
-						}
-					}
-				});
-			} else if (livreSelectionne != null) {
-				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Confirmation");
-				alert.setHeaderText("Confirmation");
-				alert.setContentText("Êtes vous sur de vouloir vous supprimer ce Livre ?");
-				alert.showAndWait().ifPresent(response -> {
-					if (response == ButtonType.OK) {
-						String strNoLivre = livreSelectionne.getNoDoc();
-						ListeLivre.supprimerLivre(livreSelectionne);
-						for (Document d : documents) {
-							if (d.getNoDoc().equals(strNoLivre)) {
-								ListDocument.supprimerDocument(d);
-							}
-						}
-					}
-				});
-			}
-
-			else if (periodiqueSelectionne != null) {
-				Alert alert = new Alert(AlertType.CONFIRMATION);
-				alert.setTitle("Confirmation");
-				alert.setHeaderText("Confirmation");
-				alert.setContentText("Êtes vous sur de vouloir vous supprimer ce Periodique ?");
-				alert.showAndWait().ifPresent(response -> {
-					if (response == ButtonType.OK) {
-						String strNoPeriodique = periodiqueSelectionne.getNoDoc();
-						ListePeriodique.supprimerPeriodique(periodiqueSelectionne);
-						for (Document d : documents) {
-							if (d.getNoDoc().equals(strNoPeriodique)) {
-								ListDocument.supprimerDocument(d);
-							}
-						}
-					}
-				});
-			}*/
+			} /*
+				 * else if (dvdSelectionne != null) { Alert alert = new
+				 * Alert(AlertType.CONFIRMATION); alert.setTitle("Confirmation");
+				 * alert.setHeaderText("Confirmation");
+				 * alert.setContentText("Êtes vous sur de vouloir vous supprimer ce DVD ?");
+				 * alert.showAndWait().ifPresent(response -> { if (response == ButtonType.OK) {
+				 * String strNoDVD = dvdSelectionne.getNoDoc();
+				 * ListeDVD.supprimerDVD(dvdSelectionne); for (Document d : documents) { if
+				 * (d.getNoDoc().equals(strNoDVD)) { ListDocument.supprimerDocument(d); } } }
+				 * }); } else if (livreSelectionne != null) { Alert alert = new
+				 * Alert(AlertType.CONFIRMATION); alert.setTitle("Confirmation");
+				 * alert.setHeaderText("Confirmation");
+				 * alert.setContentText("Êtes vous sur de vouloir vous supprimer ce Livre ?");
+				 * alert.showAndWait().ifPresent(response -> { if (response == ButtonType.OK) {
+				 * String strNoLivre = livreSelectionne.getNoDoc();
+				 * ListeLivre.supprimerLivre(livreSelectionne); for (Document d : documents) {
+				 * if (d.getNoDoc().equals(strNoLivre)) { ListDocument.supprimerDocument(d); } }
+				 * } }); }
+				 * 
+				 * else if (periodiqueSelectionne != null) { Alert alert = new
+				 * Alert(AlertType.CONFIRMATION); alert.setTitle("Confirmation");
+				 * alert.setHeaderText("Confirmation"); alert.
+				 * setContentText("Êtes vous sur de vouloir vous supprimer ce Periodique ?");
+				 * alert.showAndWait().ifPresent(response -> { if (response == ButtonType.OK) {
+				 * String strNoPeriodique = periodiqueSelectionne.getNoDoc();
+				 * ListePeriodique.supprimerPeriodique(periodiqueSelectionne); for (Document d :
+				 * documents) { if (d.getNoDoc().equals(strNoPeriodique)) {
+				 * ListDocument.supprimerDocument(d); } } } }); }
+				 */
 
 			else {
 
@@ -253,7 +268,9 @@ public class BibliothequePrepose extends Stage {
 		});
 
 		Button btnGererAdherant = new Button("Gerer les adhérants");
-
+		btnGererAdherant.setOnAction(e -> {
+			new GererLesAdherents().show();
+		});
 		Button btnDeconnexion = new Button("Deconnexion");
 		btnDeconnexion.setOnAction(e -> {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -276,7 +293,7 @@ public class BibliothequePrepose extends Stage {
 		});
 
 		vBox.getChildren().addAll(createVboxImage(), createHboxMotsCles(), comboBox, btnEffacerFiltres,
-				btnNouveauDocument, btnSupprimerDocument, btnGererAdherant, btnDeconnexion);
+				btnNouveauDocument, btnSupprimerDocument, btnAjouterPret, btnGererAdherant, btnDeconnexion);
 
 		return vBox;
 	}

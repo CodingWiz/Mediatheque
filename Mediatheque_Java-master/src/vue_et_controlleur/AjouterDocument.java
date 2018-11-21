@@ -18,7 +18,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-public class Ajouter extends Stage{
+public class AjouterDocument extends Stage{
 	ObservableList<String> options = 
 		    FXCollections.observableArrayList(
 		        "Livre",
@@ -28,7 +28,7 @@ public class Ajouter extends Stage{
 	final ComboBox<String> comboBox = new ComboBox<String>(options);
 
 	
-	public Ajouter() {
+	public AjouterDocument() {
 		try {
 			VBox root = createVbox();
 			Scene scene = new Scene(root,400,300);
