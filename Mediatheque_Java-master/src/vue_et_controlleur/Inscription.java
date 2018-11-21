@@ -484,20 +484,26 @@ public class Inscription extends Stage {
 					
 					ajoutEmploye();
 					
+					Login login = new Login();
 					try {
-						new Login().start(new Stage());
-					} catch (Exception e) {
-						e.printStackTrace();
+						login.booPremiereFois = false;
+						login.start(new Stage());
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 				}
 			}
 			else if (event.getSource() == btnAnnuler) {
 				stage.close();
 				
+				Login login = new Login();
 				try {
-					new Login().start(new Stage());
-				} catch (Exception e) {
-					e.printStackTrace();
+					login.booPremiereFois = false;
+					login.start(new Stage());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 			}
 		}
@@ -513,10 +519,13 @@ public class Inscription extends Stage {
 					
 					stage.close();
 					
+					Login login = new Login();
 					try {
-						new Login().start(new Stage());
-					} catch (Exception e) {
-						e.printStackTrace();
+						login.booPremiereFois = false;
+						login.start(new Stage());
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 				}
 			}

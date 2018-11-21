@@ -65,7 +65,7 @@ public class Deserialization {
 
 	@SuppressWarnings("resource")
 	public static void DeserialiserDVD() {
-		File fileDVD = new File("DVD.ser");
+		/*File fileDVD = new File("DVD.ser");
 		if (fileDVD.exists()) {
 			fileDVD.delete();
 		}
@@ -77,7 +77,7 @@ public class Deserialization {
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
-		}
+		}*/
 		
 		FileInputStream fichier = null;
 		try {
@@ -108,7 +108,7 @@ public class Deserialization {
 	@SuppressWarnings("resource")
 	public static void DeserialiserLivre() {
 		
-		File fileLivre = new File("livre.ser");
+		/*File fileLivre = new File("livre.ser");
 		if (fileLivre.exists()) {
 			fileLivre.delete();
 		}
@@ -121,7 +121,7 @@ public class Deserialization {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-		
+		*/
 		FileInputStream fichier = null;
 		try {
 			fichier = new FileInputStream("livre.ser");
@@ -150,7 +150,7 @@ public class Deserialization {
 
 	@SuppressWarnings("resource")
 	public static void DeserialiserPeriodique() {
-		
+		/*
 		File filePer = new File("periodique.ser");
 		if (filePer.exists()) {
 			filePer.delete();
@@ -163,7 +163,7 @@ public class Deserialization {
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
-		}
+		}*/
 		
 		FileInputStream fichier = null;
 		try {
@@ -194,6 +194,7 @@ public class Deserialization {
 	
 	@SuppressWarnings("resource")
 	public static void DeserialiserDocument() {
+		/*
 		File fileDocument = new File("document.ser");
 		if (fileDocument.exists()) {
 			fileDocument.delete();
@@ -206,7 +207,7 @@ public class Deserialization {
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
-		}
+		}*/
 		
 		FileInputStream fichier = null;
 		try {
@@ -240,7 +241,7 @@ public class Deserialization {
 	
 	@SuppressWarnings("resource")
 	public static void DeserialiserAdherant() {
-		
+		/*
 		File fileAdhrant = new File("adherant.ser");
 		if (fileAdhrant.exists()) {
 			fileAdhrant.delete();
@@ -253,7 +254,7 @@ public class Deserialization {
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
-		}
+		}*/
 		FileInputStream fichier = null;
 		try {
 			fichier = new FileInputStream("adherant.ser");
@@ -285,6 +286,7 @@ public class Deserialization {
 	
 	@SuppressWarnings("resource")
 	public static void DeserialiserPrepose() {
+		/*
 		File filePrepose = new File("prepose.ser");
 		if (filePrepose.exists()) {
 			filePrepose.delete();
@@ -300,7 +302,7 @@ public class Deserialization {
 		} catch (IOException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
-		}
+		}*/
 		FileInputStream fichier = null;
 		try {
 			fichier = new FileInputStream("prepose.ser");
