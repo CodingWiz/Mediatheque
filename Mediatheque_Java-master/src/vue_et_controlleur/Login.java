@@ -458,7 +458,7 @@ public class Login extends Application {
 	 * TODO check si les données entrées sont valides et sont dans les fichiers
 	 * sérialisés
 	 */
-	private boolean connexion() {
+	private boolean connexionTest() {
 		boolean blnConnexion = true, booOk = false;
 		
 		// si prepose se connecte
@@ -712,6 +712,20 @@ public class Login extends Application {
 			}
 		}
 	}
+	
+	private void connexion() {
+		if (connexionTest()) {
+			retourSansErreur();
+			stage.close();
+			
+			if (rbPrepose.isSelected()) {
+				new BibliothequePrepose().show();
+			}
+			else if (rbAdherent.isSelected()) {
+				new BibliothequeAdherant().show();
+			}
+		}
+	}
 
 	private class GestionConnexion implements EventHandler<ActionEvent> {
 
@@ -726,20 +740,24 @@ public class Login extends Application {
 				gridPane.getChildren().clear();
 				loginAdherent(true);
 			} else if (event.getSource() == rbConnexionTel) {
+				textFieldAdherentNom.clear();
+				textFieldAdherentPrenom.clear();
+				
 				loginAdherent(false);
 				gridPane.getChildren().clear();
 				loginAdherent(true);
+				
+				textFieldAdherentNoTel.requestFocus();
 			} else if (event.getSource() == rbConnexionNomPrenom) {
+				textFieldAdherentNoTel.clear();
+				
 				loginAdherent(false);
 				gridPane.getChildren().clear();
 				loginAdherent(true);
+				
+				textFieldAdherentNom.requestFocus();
 			} else if (event.getSource() == btnConnexion) {
-				if (connexion()) {
-					retourSansErreur();
-					stage.close();
-					
-					new BibliothequePrepose().show();
-				}
+				connexion();
 			} else if (event.getSource() == btnInscription) {
 				retourSansErreur();
 				stage.close();
@@ -754,12 +772,7 @@ public class Login extends Application {
 		@Override
 		public void handle(KeyEvent event) {
 			if (event.getEventType() == KeyEvent.KEY_PRESSED && event.getCode() == KeyCode.ENTER) {
-				if (connexion()) {
-					retourSansErreur();
-					stage.close();
-
-					new BibliothequePrepose().show();
-				}
+				connexion();
 			}
 		}
 	}
