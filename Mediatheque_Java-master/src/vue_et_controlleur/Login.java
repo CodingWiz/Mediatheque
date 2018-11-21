@@ -99,6 +99,7 @@ public class Login extends Application {
 				Deserialization.DeserialiserDocument();
 				Deserialization.DeserialiserAdherent();
 				Deserialization.DeserialiserPrepose();
+				Deserialization.DeserialiserPret();
 			}
 		}
 
