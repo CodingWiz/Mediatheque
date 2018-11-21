@@ -454,6 +454,7 @@ public class Inscription extends Stage {
 		else if(rbPrepose.isSelected()) {
 			Random noEmploye = new Random();
 			
+			// entre 1000000 et 9999999 inclusif
 			int bonNo = noEmploye.nextInt((9999999-1000000) + 1) + 1000000;
 			for(int i = 0; i<ListePrepose.getLstPreposeATrouver().size(); i++) {
 				if(ListePrepose.getLstPreposeATrouver().get(i).getStrNoPrepose().equals(Integer.toString(bonNo))){
@@ -462,7 +463,15 @@ public class Inscription extends Stage {
 				}			
 			}
 			ListePrepose.ajouterPrepose(new Prepose(textFieldNom.getText(), textFieldPrenom.getText(), textFieldAdresse.getText() ,textFieldNoTel.getText(), Integer.toString(bonNo), pwdFieldPreposePwd.getText()));
-		System.out.println("Votre numéro d'employé est : " + Integer.toString(bonNo));
+			
+			//System.out.println("Votre numéro d'employé est : " + Integer.toString(bonNo));
+			
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle("Information");
+			alert.setHeaderText(null);
+			alert.setContentText("Veillez prendre en note que le numéro d'employé qui vous a été attribué est le suivant : " + Integer.toString(bonNo));
+
+			alert.showAndWait();
 		}
 		
 	}
