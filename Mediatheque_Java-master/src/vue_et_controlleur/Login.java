@@ -8,10 +8,10 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -20,7 +20,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -38,7 +37,6 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -49,7 +47,10 @@ import javafx.util.Duration;
 
 public class Login extends Application {
 
-	private String strModele = "./modele/", strVueEtControlleur = "./vue_et_controlleur/";
+	/* private String strImages = "modele/images/", 
+		strDocuments = "src/modele/documents/";*/
+	
+	private String strModele = "./modele/";
 
 	private Stage stage;
 
@@ -70,7 +71,7 @@ public class Login extends Application {
 	boolean booPremiereFois = true;
 	private Label lblMsgErreur;
 
-	private Button btnConnexion, btnEnregistrement;
+	private Button btnConnexion, btnInscription;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -102,7 +103,7 @@ public class Login extends Application {
 							btnTypeClose = new ButtonType("Quitter", ButtonBar.ButtonData.OK_DONE),
 							btnTypeAnnuler = new ButtonType("Annuler", ButtonBar.ButtonData.CANCEL_CLOSE);
 				
-				Alert alert = new Alert(AlertType.CONFIRMATION, "Êtes vous sur de vouloir quitter l'application ?", btnTypeSave, btnTypeClose, btnTypeAnnuler);
+				Alert alert = new Alert(AlertType.CONFIRMATION, "Êtes-vous sûr de vouloir quitter l'application ?", btnTypeSave, btnTypeClose, btnTypeAnnuler);
 				
 				alert.setTitle("Confirmation");
 				alert.setHeaderText("Confirmation");
@@ -134,7 +135,7 @@ public class Login extends Application {
 		lblTop.setFont(font(20, null));
 
 		ToggleGroup tGroup = new ToggleGroup();
-		rbPrepose = new RadioButton("Péposé");
+		rbPrepose = new RadioButton("Préposé");
 		rbAdherent = new RadioButton("Adhérent");
 
 		rbPrepose.setAlignment(Pos.CENTER);
@@ -188,7 +189,7 @@ public class Login extends Application {
 				textFieldAdherentPrenom };
 
 		btnConnexion = new Button("Connexion");
-		btnEnregistrement = new Button("Inscription");
+		btnInscription = new Button("Inscription");
 		lblMsgErreur = new Label("");
 
 		for (Label lbl : arrLbl) {
@@ -211,16 +212,16 @@ public class Login extends Application {
 		pwdFieldPreposePwd.setOnKeyPressed(new GestionClavier());
 		
 		btnConnexion.setAlignment(Pos.CENTER_RIGHT);
-		btnEnregistrement.setAlignment(Pos.CENTER_RIGHT);
+		btnInscription.setAlignment(Pos.CENTER_RIGHT);
 
 		btnConnexion.setFont(font(15, FontWeight.BOLD));
-		btnEnregistrement.setFont(font(15, FontWeight.BOLD));
+		btnInscription.setFont(font(15, FontWeight.BOLD));
 
 		btnConnexion.setGraphic(
 				new ImageView(new Image(strModele + "secure-icon-lock-secure-icon-27.png", 20, 20, false, false)));
 
 		btnConnexion.setOnAction(new GestionConnexion());
-		btnEnregistrement.setOnAction(new GestionConnexion());
+		btnInscription.setOnAction(new GestionConnexion());
 
 		if (blnProfPasDeStyle) {
 			// https://stackoverflow.com/questions/12717487/how-to-implement-a-transparent-pane-with-non-transparent-children
@@ -277,7 +278,7 @@ public class Login extends Application {
 		GridPane.setHalignment(lblAdherentOu, HPos.CENTER);
 
 		GridPane.setHalignment(btnConnexion, HPos.RIGHT);
-		GridPane.setHalignment(btnEnregistrement, HPos.RIGHT);
+		GridPane.setHalignment(btnInscription, HPos.RIGHT);
 
 		GridPane.setHalignment(lblMsgErreur, HPos.CENTER);
 		gridPane.add(lblTop, 0, 0);
@@ -287,7 +288,7 @@ public class Login extends Application {
 		gridPane.add(lblPreposePwd, 0, 4);
 		gridPane.add(pwdFieldPreposePwd, 1, 4);
 		gridPane.add(btnConnexion, 1, 8);
-		gridPane.add(btnEnregistrement, 1, 10);
+		gridPane.add(btnInscription, 1, 10);
 		// gridPane.add(lblMsgErreur, 1, 15);
 
 		// Add HBox and GridPane layout to BorderPane Layout
@@ -383,13 +384,6 @@ public class Login extends Application {
 	}
 
 	/*
-	 * TODO afficher menu principal
-	 */
-	private void afficheMenuPrincipal() {
-
-	}
-
-	/*
 	 * TODO check si les données entrées sont valides et sont dans les fichiers
 	 * sérialisés
 	 */
@@ -443,8 +437,8 @@ public class Login extends Application {
 
 			gridPane.add(btnConnexion, 1, 8);
 
-			gridPane.getChildren().remove(btnEnregistrement);
-			gridPane.add(btnEnregistrement, 1, 10);
+			gridPane.getChildren().remove(btnInscription);
+			gridPane.add(btnInscription, 1, 10);
 		} else {
 			gridPane.getChildren().remove(lblPreposeNoUser);
 			gridPane.getChildren().remove(lblPreposePwd);
@@ -453,8 +447,8 @@ public class Login extends Application {
 
 			gridPane.getChildren().remove(btnConnexion);
 
-			gridPane.getChildren().remove(btnEnregistrement);
-			gridPane.add(btnEnregistrement, 1, 4);
+			gridPane.getChildren().remove(btnInscription);
+			gridPane.add(btnInscription, 1, 4);
 		}
 	}
 
@@ -480,8 +474,8 @@ public class Login extends Application {
 
 			gridPane.add(btnConnexion, 1, 10);
 
-			gridPane.getChildren().remove(btnEnregistrement);
-			gridPane.add(btnEnregistrement, 1, 12);
+			gridPane.getChildren().remove(btnInscription);
+			gridPane.add(btnInscription, 1, 12);
 		} else {
 			gridPane.getChildren().remove(lblAdherentNoTel);
 			gridPane.getChildren().remove(lblAdherentNom);
@@ -494,8 +488,8 @@ public class Login extends Application {
 
 			gridPane.getChildren().remove(btnConnexion);
 
-			gridPane.getChildren().remove(btnEnregistrement);
-			gridPane.add(btnEnregistrement, 1, 4);
+			gridPane.getChildren().remove(btnInscription);
+			gridPane.add(btnInscription, 1, 4);
 		}
 	}
 
@@ -511,15 +505,16 @@ public class Login extends Application {
 				loginAdherent(true);
 			} else if (event.getSource() == btnConnexion) {
 				if (connexion()) {
-					afficheMenuPrincipal();
 					retourSansErreur();
 					stage.close();
-					new BibliothequeAdherant().show();
+					
+					new BibliothequePrepose().show();
 				}
-			} else if (event.getSource() == btnEnregistrement) {
+			} else if (event.getSource() == btnInscription) {
 				retourSansErreur();
 				stage.close();
-				new Inscription(blnProfPasDeStyle, stage).show();
+				
+				new Inscription(blnProfPasDeStyle).show();
 			}
 		}
 
@@ -530,9 +525,9 @@ public class Login extends Application {
 		public void handle(KeyEvent event) {
 			if (event.getEventType() == KeyEvent.KEY_PRESSED && event.getCode() == KeyCode.ENTER) {
 				if (connexion()) {
-					afficheMenuPrincipal();
 					retourSansErreur();
 					stage.close();
+					
 					new BibliothequePrepose().show();
 				}
 			}
