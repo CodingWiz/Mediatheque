@@ -504,7 +504,7 @@ public class Inscription extends Stage {
 
 					// si la fenetre est le login
 					if (blnLogin) {
-						System.out.println("La fenetre precedente est une fenetre login. booPremiereFois est mis a false");
+						//System.out.println("La fenetre precedente est une fenetre login. booPremiereFois est mis a false");
 						
 						Login login = new Login();
 						try {
@@ -517,7 +517,7 @@ public class Inscription extends Stage {
 					} 
 					// si la fenetre est gerer les adherents
 					else {
-						System.out.println("La fenetre precedente est une fenetre de gestion des adherents");
+						//System.out.println("La fenetre precedente est une fenetre de gestion des adherents");
 						
 						new GererLesAdherents().show();
 					}
@@ -547,7 +547,7 @@ public class Inscription extends Stage {
 
 					// si la fenetre est le login
 					if (blnLogin) {
-						System.out.println("La fenetre est une fenetre login. booPremiereFois est mis a false");
+						//System.out.println("La fenetre est une fenetre login. booPremiereFois est mis a false");
 						
 						Login login = new Login();
 						try {
@@ -560,7 +560,7 @@ public class Inscription extends Stage {
 					} 
 					// si la fenetre est gerer les adherents
 					else {
-						System.out.println("La fenetre precedente est une fenetre de gestion des adherents");
+						//System.out.println("La fenetre precedente est une fenetre de gestion des adherents");
 						new GererLesAdherents().show();
 					}
 				}
@@ -596,10 +596,10 @@ public class Inscription extends Stage {
 	private void retour(Event e) {		
 		e.consume();
 
-		ButtonType btnTypeSave = new ButtonType("Retour " + (blnLogin ? "au login" : "à la bibliothèque"), ButtonBar.ButtonData.OK_DONE),
+		ButtonType btnTypeSave = new ButtonType("Retour " + (blnLogin ? "au login" : "à la gestion"), ButtonBar.ButtonData.OK_DONE),
 				btnTypeAnnuler = new ButtonType("Rester", ButtonBar.ButtonData.CANCEL_CLOSE);
              
-		Alert alert = new Alert(AlertType.CONFIRMATION, "Êtes-vous sûr de vouloir retourner " + (blnLogin ? "au login" : "à la bibliothèque") + "  ?",
+		Alert alert = new Alert(AlertType.CONFIRMATION, "Êtes-vous sûr de vouloir retourner " + (blnLogin ? "au login" : "à la gestion des adhérents") + "  ?",
 				btnTypeSave, btnTypeAnnuler);
 
 		alert.setTitle("Confirmation");
@@ -620,7 +620,7 @@ public class Inscription extends Stage {
 
 				// si la fenetre est le login
 				if (blnLogin) {
-					System.out.println("La fenetre est une fenetre login. booPremiereFois est mis a false");
+					//System.out.println("La fenetre est une fenetre login. booPremiereFois est mis a false");
 					
 					Login login = new Login();
 					try {
@@ -633,7 +633,7 @@ public class Inscription extends Stage {
 				} 
 				// si la fenetre est gerer les adherents
 				else {
-					System.out.println("La fenetre precedente est une fenetre de gestion des adherents");
+					//System.out.println("La fenetre precedente est une fenetre de gestion des adherents");
 					new GererLesAdherents().show();
 				}
 			}

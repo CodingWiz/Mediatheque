@@ -10,6 +10,8 @@ import Objet.ListeLivre;
 import Objet.ListePeriodique;
 import Objet.Livre;
 import Objet.Periodique;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -83,8 +85,6 @@ public class BibliothequePrepose extends Stage {
 	}
 
 	private HBox createHBox() {
-		// TODO Auto-generated method stub
-
 		Image imaTous = new Image("tous.jpg", 25, 25, true, true);
 		ImageView imTous = new ImageView(imaTous);
 		Image imaPeriodique = new Image("periodique.jpg", 25, 25, true, true);
@@ -121,6 +121,19 @@ public class BibliothequePrepose extends Stage {
 		tabPane.setPrefWidth(673);
 
 		hBox.getChildren().addAll(tabPane, createVboxFiltres());
+		
+		// efface les mots cles et remet le combo box a tous
+		tabPane.getSelectionModel().selectedItemProperty().addListener(
+		    new ChangeListener<Tab>() {
+		        @Override
+		        public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
+		            //System.out.println("Tab Selection changed");
+		        	
+		        	txtMotscles.clear();
+		    		comboBox.setValue("Tous");
+		        }
+		    }
+		);
 
 		return hBox;
 	}
@@ -335,7 +348,7 @@ public class BibliothequePrepose extends Stage {
 	 */
 
 	@SuppressWarnings("unchecked")
-	private VBox createTableDocumentVBox() {
+	private VBox createTableDocumentVBox() {		
 		VBox vBox = new VBox();
 		vBox.setPadding(new Insets(10));
 		vBox.setSpacing(10);
@@ -384,7 +397,7 @@ public class BibliothequePrepose extends Stage {
 	}
 
 	@SuppressWarnings("unchecked")
-	private VBox createTablePeriodiqueVBox() {
+	private VBox createTablePeriodiqueVBox() {		
 		VBox vBox = new VBox();
 		vBox.setPadding(new Insets(10));
 		vBox.setSpacing(10);
@@ -416,8 +429,7 @@ public class BibliothequePrepose extends Stage {
 	}
 
 	@SuppressWarnings("unchecked")
-	private VBox createTableLivreVBox() {
-		// TODO Auto-generated method stub
+	private VBox createTableLivreVBox() {		
 		VBox vBox = new VBox();
 		vBox.setPadding(new Insets(10));
 		vBox.setSpacing(10);
@@ -445,7 +457,6 @@ public class BibliothequePrepose extends Stage {
 
 	@SuppressWarnings("unchecked")
 	private VBox createTableDVDVBox() {
-		// TODO Auto-generated method stub
 		VBox vBox = new VBox();
 		vBox.setPadding(new Insets(10));
 		vBox.setSpacing(10);
@@ -483,7 +494,7 @@ public class BibliothequePrepose extends Stage {
 		 * alert.setContentText("Êtes vous sur de vouloir vous déconnecter ?");
 		 * alert.showAndWait().ifPresent(response -> { if (response == ButtonType.OK) {
 		 * this.close(); Login login = new Login(); try { login.booPremiereFois = false;
-		 * login.start(new Stage()); } catch (Exception e1) { // TODO Auto-generated
+		 * login.start(new Stage()); } catch (Exception e1) { 
 		 * catch block e1.printStackTrace(); } } });
 		 */
 
@@ -505,7 +516,6 @@ public class BibliothequePrepose extends Stage {
 					login.booPremiereFois = false;
 					login.start(new Stage());
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

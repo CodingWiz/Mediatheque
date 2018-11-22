@@ -112,12 +112,12 @@ public class CompteAdherent extends Stage {
 			comboBox.setValue("Tous");
 		});
 
-		Button btnRetour = new Button("Retour à la gestion des adhérents");
+		/*Button btnRetour = new Button("Retour à la gestion");
 		btnRetour.setOnAction(e -> {
 			this.close();
-		});
+		});*/
 
-		vBox.getChildren().addAll(createVboxImage(), createHboxMotsCles(), comboBox, btnEffacerFiltres, btnRetour);
+		vBox.getChildren().addAll(createVboxImage(), createHboxMotsCles(), comboBox, btnEffacerFiltres/*, btnRetour*/);
 
 		return vBox;
 	}

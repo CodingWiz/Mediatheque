@@ -8,10 +8,14 @@ import Objet.ListePret;
 import Objet.Pret;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
@@ -19,6 +23,7 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -56,6 +61,8 @@ public class VisualiserAdherent extends Stage {
 	public VisualiserAdherent() {
 
 		try {
+			this.setOnCloseRequest(e->{retourBiblio(e);});
+			
 			HBox root = createHBox();
 			Scene scene = new Scene(root, 890, 435);
 			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -112,9 +119,13 @@ public class VisualiserAdherent extends Stage {
 			comboBox.setValue("Tous");
 		});
 
-		Button btnRetour = new Button("Retour à la bibliotheque de l'adherent");
+		Button btnRetour = new Button("Retour à la bibliotheque");
 		btnRetour.setOnAction(e -> {
-			this.close();
+			/*this.close();
+			
+			new BibliothequeAdherant().show();*/
+			
+			retourBiblio(e);
 		});
 
 		vBox.getChildren().addAll(createVboxImage(), createHboxMotsCles(), comboBox, btnEffacerFiltres, btnRetour);
@@ -205,4 +216,34 @@ public class VisualiserAdherent extends Stage {
 		return vBox;
 	}
 
+	private void retourBiblio(Event event) {
+		event.consume();
+
+		/*
+		 * Alert alert = new Alert(AlertType.CONFIRMATION);
+		 * alert.setTitle("Confirmation"); alert.setHeaderText("Confirmation");
+		 * alert.setContentText("Êtes vous sur de vouloir vous déconnecter ?");
+		 * alert.showAndWait().ifPresent(response -> { if (response == ButtonType.OK) {
+		 * this.close(); Login login = new Login(); try { login.booPremiereFois = false;
+		 * login.start(new Stage()); } catch (Exception e1) { // TODO Auto-generated
+		 * catch block e1.printStackTrace(); } } });
+		 */
+
+		ButtonType btnTypeSave = new ButtonType("Retour à bibliothèque", ButtonBar.ButtonData.OK_DONE),
+				btnTypeAnnuler = new ButtonType("Rester", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+		Alert alert = new Alert(AlertType.CONFIRMATION, "Êtes-vous sûr de vouloir retourner à la bibliothèque ?", btnTypeSave,
+				btnTypeAnnuler);
+
+		alert.setTitle("Confirmation");
+		alert.setHeaderText("Confirmation");
+
+		alert.showAndWait().ifPresent(response -> {
+			if (response == btnTypeSave) {
+				this.close();
+
+				new BibliothequeAdherant().show();
+			}
+		});
+	}
 }

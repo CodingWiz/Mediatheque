@@ -12,6 +12,8 @@ import Objet.ListeLivre;
 import Objet.ListePeriodique;
 import Objet.Livre;
 import Objet.Periodique;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -117,6 +119,18 @@ public class BibliothequeAdherant extends Stage {
 		tabPane.setPrefWidth(673);
 
 		hBox.getChildren().addAll(tabPane, createVboxFiltres());
+		
+		tabPane.getSelectionModel().selectedItemProperty().addListener(
+		    new ChangeListener<Tab>() {
+		        @Override
+		        public void changed(ObservableValue<? extends Tab> ov, Tab t, Tab t1) {
+		            //System.out.println("Tab Selection changed");
+		        	
+		        	txtMotscles.clear();
+		    		comboBox.setValue("Tous");
+		        }
+		    }
+		);
 
 		return hBox;
 	}
@@ -140,7 +154,7 @@ public class BibliothequeAdherant extends Stage {
 			comboBox.setValue("Tous");
 		});
 
-		Button btnDeconnexion = new Button("Deconnexion");
+		Button btnDeconnexion = new Button("Déconnexion");
 		btnDeconnexion.setOnAction(e -> {
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmation");
@@ -149,6 +163,7 @@ public class BibliothequeAdherant extends Stage {
 			alert.showAndWait().ifPresent(response -> {
 				if (response == ButtonType.OK) {
 					this.close();
+					
 					Login login = new Login();
 					try {
 						login.booPremiereFois = false;
@@ -163,11 +178,13 @@ public class BibliothequeAdherant extends Stage {
 
 		Button btnVisualiserMonCompe = new Button("Visualiser mon compte");
 		btnVisualiserMonCompe.setOnAction(e -> {
+			this.close();
+			
 			new VisualiserAdherent().show();
 		});
 
-		vBox.getChildren().addAll(createVboxImage(), createHboxMotsCles(), comboBox, btnEffacerFiltres, btnDeconnexion,
-				btnVisualiserMonCompe);
+		vBox.getChildren().addAll(createVboxImage(), createHboxMotsCles(), comboBox, btnEffacerFiltres,
+				btnVisualiserMonCompe, btnDeconnexion);
 
 		return vBox;
 	}

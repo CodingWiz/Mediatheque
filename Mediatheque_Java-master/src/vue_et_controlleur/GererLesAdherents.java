@@ -102,7 +102,11 @@ public class GererLesAdherents extends Stage {
 						alertInfo.setHeaderText("");
 						alertInfo.setContentText("L'adherent " + adherent.getStrNom() + ", " + adherent.getStrPrenom()
 								+ " a été supprimé");
-						alertInfo.showAndWait();
+						alertInfo.showAndWait().ifPresent(ok -> {
+							this.close();
+							
+							new GererLesAdherents().show();
+						});
 					}
 				});
 
@@ -116,7 +120,7 @@ public class GererLesAdherents extends Stage {
 				alert.setTitle("Erreur");
 				alert.setHeaderText("");
 				alert.setContentText(
-						"Veuillez selectionner l'adhérent pour qui vous aimeriez voir les informations détaillées");
+						"Veuillez séléctionner l'adhérent pour qui vous aimeriez voir les informations détaillées");
 				alert.showAndWait();
 			} else {
 				adherentSelectionne = tableAdherent.getSelectionModel().getSelectedItem();
