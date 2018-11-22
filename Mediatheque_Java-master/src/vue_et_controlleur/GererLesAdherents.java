@@ -79,7 +79,7 @@ public class GererLesAdherents extends Stage {
 		});
 
 		// Button btnAjouterAdherent = new Button(" Ajouter Adhérent");
-		Button btnSupprimerAdherent = new Button("Supprimer un adhérent");
+		Button btnSupprimerAdherent = new Button("Supprimer l'adhérent");
 		btnSupprimerAdherent.setOnAction(e -> {
 			Adherent adherent = tableAdherent.getSelectionModel().getSelectedItem();
 			if (tableAdherent.getSelectionModel().getSelectedItem() == null) {
@@ -131,8 +131,13 @@ public class GererLesAdherents extends Stage {
 		btnRetourner.setOnAction(e -> {
 			retourABibliotheque(e);
 		});
+		
+		Button btnModifierAdherent = new Button("Modifier l'adhérent");
+		btnModifierAdherent.setOnAction(e->{
+			
+		});
 
-		vBox.getChildren().addAll(createVboxImage(), btnInfoDetaille, btnAjouterAdherent, btnSupprimerAdherent, btnRetourner);
+		vBox.getChildren().addAll(createVboxImage(), btnInfoDetaille, btnAjouterAdherent, btnModifierAdherent, btnSupprimerAdherent, btnRetourner);
 
 		return vBox;
 	}
