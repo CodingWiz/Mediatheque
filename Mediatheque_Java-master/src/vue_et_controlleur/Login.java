@@ -735,7 +735,7 @@ public class Login extends Application {
 				retourSansErreur();
 				stage.close();
 
-				new Inscription(blnProfPasDeStyle).show();
+				new Inscription(blnProfPasDeStyle, true).show();
 			}
 		}
 

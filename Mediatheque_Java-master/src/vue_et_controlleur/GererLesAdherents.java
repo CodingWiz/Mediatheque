@@ -71,9 +71,15 @@ public class GererLesAdherents extends Stage {
 				new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 		vBox.setMaxWidth(300);
 		vBox.setAlignment(Pos.CENTER);
+		
+		Button btnAjouterAdherent = new Button("Ajouter un adhérent");
+		btnAjouterAdherent.setOnAction(e-> {
+			this.close();
+			new Inscription(false, false).show();
+		});
 
 		// Button btnAjouterAdherent = new Button(" Ajouter Adhérent");
-		Button btnSupprimerAdherent = new Button("Supprimer Adhérent");
+		Button btnSupprimerAdherent = new Button("Supprimer un adhérent");
 		btnSupprimerAdherent.setOnAction(e -> {
 			Adherent adherent = tableAdherent.getSelectionModel().getSelectedItem();
 			if (tableAdherent.getSelectionModel().getSelectedItem() == null) {
@@ -122,7 +128,7 @@ public class GererLesAdherents extends Stage {
 			retourABibliotheque(e);
 		});
 
-		vBox.getChildren().addAll(createVboxImage(), btnSupprimerAdherent, btnInfoDetaille, btnRetourner);
+		vBox.getChildren().addAll(createVboxImage(), btnInfoDetaille, btnAjouterAdherent, btnSupprimerAdherent, btnRetourner);
 
 		return vBox;
 	}

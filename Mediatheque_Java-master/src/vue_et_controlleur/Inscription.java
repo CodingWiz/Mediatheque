@@ -53,9 +53,9 @@ public class Inscription extends Stage {
 
 	private String strModele = "./modele/";
 
-	private Stage stage;
+	private Stage thisStage;
 
-	private boolean blnProfPasDeStyle;
+	private boolean blnProfPasDeStyle, blnLogin;
 
 	private Label lblNom, lblPrenom, lblAdresse, lblNoTel, lblTypeEmploye, lblPreposePwd, lblPreposePwdConfirmation;
 	private Label[] arrLbl;
@@ -75,13 +75,16 @@ public class Inscription extends Stage {
 
 	private Button btnInscription, btnAnnuler;
 
-	public Inscription(boolean blnProfPasDeStyle) {
+	public Inscription(boolean blnProfPasDeStyle, boolean blnLogin) {
 		try {
-			this.stage = this;
+			this.thisStage = this;
 			this.blnProfPasDeStyle = blnProfPasDeStyle;
+			this.blnLogin = blnLogin; // pour savoir si la fenetre envoyee est le login ou si c est la gestion des adherents
 
 			this.setOnCloseRequest(e -> {
-				quitter(e);
+				//quitter(e);
+				
+				retour(e);
 			});
 
 			BorderPane root = new BorderPane();
@@ -167,7 +170,7 @@ public class Inscription extends Stage {
 			rbPrepose.setOnAction(new GestionInscription());
 			rbAdherent.setOnAction(new GestionInscription());
 
-			hBoxRadioButton.setAlignment(Pos.CENTER);
+			hBoxRadioButton.setAlignment(Pos.CENTER_LEFT);
 			hBoxRadioButton.getChildren().addAll(rbPrepose, rbAdherent);
 
 			btnInscription.setFont(font(15, FontWeight.BOLD));
@@ -182,7 +185,7 @@ public class Inscription extends Stage {
 			for (Label lbl : arrLbl) {
 				GridPane.setHalignment(lbl, HPos.RIGHT);
 			}
-			GridPane.setHalignment(hBoxRadioButton, HPos.CENTER);
+			GridPane.setHalignment(hBoxRadioButton, HPos.LEFT);
 			GridPane.setHalignment(hBoxButton, HPos.CENTER);
 			GridPane.setHalignment(lblMsgErreur, HPos.CENTER);
 
@@ -214,6 +217,17 @@ public class Inscription extends Stage {
 			// inscriptionPrepose(false);
 
 			textFieldNom.requestFocus();
+			
+			if (!blnLogin) {
+				for (PasswordField passwordField : arrPwdField) {
+					gridPane.getChildren().remove(passwordField);
+				}
+				
+				rbPrepose.setSelected(false);
+				rbAdherent.setSelected(true);
+				
+				hBoxRadioButton.getChildren().remove(rbPrepose);
+			}
 
 			this.setScene(scene);
 			this.setTitle("Médiathèque - Inscription");
@@ -253,10 +267,10 @@ public class Inscription extends Stage {
 
 		Timeline timelineX = new Timeline(new KeyFrame(Duration.seconds(0.1), t -> {
 			if (x[0] == 0) {
-				stage.setX(stage.getX() + 10);
+				thisStage.setX(thisStage.getX() + 10);
 				x[0] = 1;
 			} else {
-				stage.setX(stage.getX() - 10);
+				thisStage.setX(thisStage.getX() - 10);
 				x[0] = 0;
 			}
 		}));
@@ -267,10 +281,10 @@ public class Inscription extends Stage {
 
 		Timeline timelineY = new Timeline(new KeyFrame(Duration.seconds(0.1), t -> {
 			if (y[0] == 0) {
-				stage.setY(stage.getY() + 10);
+				thisStage.setY(thisStage.getY() + 10);
 				y[0] = 1;
 			} else {
-				stage.setY(stage.getY() - 10);
+				thisStage.setY(thisStage.getY() - 10);
 				y[0] = 0;
 			}
 		}));
@@ -483,30 +497,37 @@ public class Inscription extends Stage {
 			} else if (event.getSource() == btnInscription) {
 				if (inscription()) {
 					retourSansErreur();
-					stage.close();
 
 					ajoutEmploye();
 
-					Login login = new Login();
-					try {
-						login.booPremiereFois = false;
-						login.start(new Stage());
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					thisStage.close();
+
+					// si la fenetre est le login
+					if (blnLogin) {
+						System.out.println("La fenetre precedente est une fenetre login. booPremiereFois est mis a false");
+						
+						Login login = new Login();
+						try {
+							login.booPremiereFois = false;
+							login.start(new Stage());
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					} 
+					// si la fenetre est gerer les adherents
+					else {
+						System.out.println("La fenetre precedente est une fenetre de gestion des adherents");
+						
+						new GererLesAdherents().show();
 					}
 				}
 			} else if (event.getSource() == btnAnnuler) {
-				stage.close();
+				/*thisStage.close();
 
-				Login login = new Login();
-				try {
-					login.booPremiereFois = false;
-					login.start(new Stage());
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				retourApresBonneInscription();*/
+				
+				retour(event);
 			}
 		}
 
@@ -518,17 +539,29 @@ public class Inscription extends Stage {
 		public void handle(KeyEvent event) {
 			if (event.getEventType() == KeyEvent.KEY_PRESSED && event.getCode() == KeyCode.ENTER) {
 				if (inscription()) {
+					retourSansErreur();
+					
 					ajoutEmploye();
+					
+					thisStage.close();
 
-					stage.close();
-
-					Login login = new Login();
-					try {
-						login.booPremiereFois = false;
-						login.start(new Stage());
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					// si la fenetre est le login
+					if (blnLogin) {
+						System.out.println("La fenetre est une fenetre login. booPremiereFois est mis a false");
+						
+						Login login = new Login();
+						try {
+							login.booPremiereFois = false;
+							login.start(new Stage());
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					} 
+					// si la fenetre est gerer les adherents
+					else {
+						System.out.println("La fenetre precedente est une fenetre de gestion des adherents");
+						new GererLesAdherents().show();
 					}
 				}
 			}
@@ -536,7 +569,7 @@ public class Inscription extends Stage {
 
 	}
 
-	private void quitter(Event event) {
+	/*private void quitter(Event event) {
 		event.consume();
 
 		ButtonType btnTypeSave = new ButtonType("Sauvegarder", ButtonBar.ButtonData.OK_DONE),
@@ -556,6 +589,53 @@ public class Inscription extends Stage {
 
 			} else if (response == btnTypeClose) {
 				System.exit(0);
+			}
+		});
+	}*/
+	
+	private void retour(Event e) {		
+		e.consume();
+
+		ButtonType btnTypeSave = new ButtonType("Retour " + (blnLogin ? "au login" : "à la bibliothèque"), ButtonBar.ButtonData.OK_DONE),
+				btnTypeAnnuler = new ButtonType("Rester", ButtonBar.ButtonData.CANCEL_CLOSE);
+             
+		Alert alert = new Alert(AlertType.CONFIRMATION, "Êtes-vous sûr de vouloir retourner " + (blnLogin ? "au login" : "à la bibliothèque") + "  ?",
+				btnTypeSave, btnTypeAnnuler);
+
+		alert.setTitle("Confirmation");
+		alert.setHeaderText("Confirmation");
+
+		alert.showAndWait().ifPresent(response -> {
+			if (response == btnTypeSave) {
+				/*
+				 * try {
+						login.booPremiereFois = false;
+						login.start(new Stage());
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				 */		
+				thisStage.close();
+
+				// si la fenetre est le login
+				if (blnLogin) {
+					System.out.println("La fenetre est une fenetre login. booPremiereFois est mis a false");
+					
+					Login login = new Login();
+					try {
+						login.booPremiereFois = false;
+						login.start(new Stage());
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				} 
+				// si la fenetre est gerer les adherents
+				else {
+					System.out.println("La fenetre precedente est une fenetre de gestion des adherents");
+					new GererLesAdherents().show();
+				}
 			}
 		});
 	}
