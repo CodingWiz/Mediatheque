@@ -11,9 +11,12 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,6 +32,7 @@ import javafx.stage.Stage;
 
 
 public class GererLesAdherents extends Stage {
+	public static Adherent adherentSelectionne = null;
 	private final TableView<Adherent> tableAdherent = new TableView<Adherent>();
 	private final ObservableList<Adherent> adherent = FXCollections.observableArrayList(ListeAdherant.getLstAdherantATrouver());
 	//private final ObservableList<Adherent> adherent = null;
@@ -68,15 +72,57 @@ public class GererLesAdherents extends Stage {
 			vBox.setAlignment(Pos.CENTER);
 			
 			
-			Button btnAjouterAdherent = new Button(" Ajouter Adhérent");
+			//Button btnAjouterAdherent = new Button(" Ajouter Adhérent");
 			Button btnSupprimerAdherent = new Button("Supprimer Adhérent");
-			Button btnRetourner = new Button("Retour aux Actions");
+			btnSupprimerAdherent.setOnAction(e -> {
+				Adherent adherent = tableAdherent.getSelectionModel().getSelectedItem();
+				if(tableAdherent.getSelectionModel().getSelectedItem() == null) {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Erreur");
+					alert.setHeaderText("");
+					alert.setContentText("Veuillez selectionner l'adhérent que vous aimeriez supprimer");
+					alert.showAndWait();
+				}
+				else {
+					Alert alert = new Alert(AlertType.CONFIRMATION);
+					alert.setTitle("Confirmation");
+					alert.setHeaderText("Confirmation");
+					alert.setContentText("Êtes vous sur de vouloir supprimer " + adherent.getStrNom() + ", " + adherent.getStrPrenom() +  "?");
+					alert.showAndWait().ifPresent(response -> {
+						if (response == ButtonType.OK) {
+							ListeAdherant.supprimerAdherant(tableAdherent.getSelectionModel().getSelectedItem());
+							Alert alertInfo = new Alert(AlertType.INFORMATION);
+							alertInfo.setTitle("Succes");
+							alertInfo.setHeaderText("");
+							alertInfo.setContentText("L'adherent " + adherent.getStrNom() + ", " + adherent.getStrPrenom() + " a été supprimé");
+							alertInfo.showAndWait();
+						}
+					});
+
+				}
+			});
+			Button btnRetourner = new Button("Retour à la bibliothèque");
+			Button btnInfoDetaille = new Button("Information détaillées");
+			btnInfoDetaille.setOnAction(e -> {
+				if(tableAdherent.getSelectionModel().getSelectedItem() == null) {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Erreur");
+					alert.setHeaderText("");
+					alert.setContentText("Veuillez selectionner l'adhérent pour qui vous aimeriez voir les informations détaillées");
+					alert.showAndWait();
+				}
+				else {
+					adherentSelectionne = tableAdherent.getSelectionModel().getSelectedItem();
+					new CompteAdherent().show();
+				}
+			});
+
 			btnRetourner.setOnAction(e-> {
 				this.close();				
 				});		
 			
 			
-			vBox.getChildren().addAll(createVboxImage(), btnAjouterAdherent, btnSupprimerAdherent, btnRetourner);	
+			vBox.getChildren().addAll(createVboxImage(), btnSupprimerAdherent, btnRetourner, btnInfoDetaille);	
 			
 			return vBox;
 		}

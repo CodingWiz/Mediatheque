@@ -2,6 +2,7 @@ package vue_et_controlleur;
 
 import java.util.ArrayList;
 
+import Objet.Adherent;
 import Objet.DVD;
 import Objet.Document;
 import Objet.Livre;
@@ -45,7 +46,7 @@ public class BibliothequeAdherant extends Stage {
 	private TableView<Document> tableDocument = new TableView<Document>();
 	ArrayList<Document> lstAllDocument = new ArrayList<Document>(LectureDesFichiers.intNombreDesDocuments);
 	ComboBox<String> comboBox = null;
-
+	public static Adherent adherentConnecte = Login.adherentConnecte;
 	// ArrayList<Livre> lstAllLivre =
 	// LectureDesFichiers.LireFichierLivres("Livres.txt");
 	private ObservableList<Document> documents = FXCollections.observableArrayList(ListDocument.getLstAllDocument());
@@ -134,27 +135,30 @@ public class BibliothequeAdherant extends Stage {
 		});
 
 		Button btnDeconnexion = new Button("Deconnexion");
-		btnDeconnexion.setOnAction(e-> {
-			 Alert alert = new Alert(AlertType.CONFIRMATION);
-			  alert.setTitle("Confirmation");
-			  alert.setHeaderText("Confirmation");
-			  alert.setContentText("Êtes vous sur de vouloir vous déconnecter ?");
-			  alert.showAndWait().ifPresent(response -> {
-				     if (response == ButtonType.OK) {
-				    	 this.close(); 
-							Login login = new Login();
-							try {
-								login.booPremiereFois = false;
-								login.start(new Stage());
-							} catch (Exception e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-				     }
-				 });
+		btnDeconnexion.setOnAction(e -> {
+			Alert alert = new Alert(AlertType.CONFIRMATION);
+			alert.setTitle("Confirmation");
+			alert.setHeaderText("Confirmation");
+			alert.setContentText("Êtes vous sur de vouloir vous déconnecter ?");
+			alert.showAndWait().ifPresent(response -> {
+				if (response == ButtonType.OK) {
+					this.close();
+					Login login = new Login();
+					try {
+						login.booPremiereFois = false;
+						login.start(new Stage());
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
 			});
+		});
 
 		Button btnVisualiserMonCompe = new Button("Visualiser mon compte");
+		btnVisualiserMonCompe.setOnAction(e -> {
+			new VisualiserAdherent().show();
+		});
 
 		vBox.getChildren().addAll(createVboxImage(), createHboxMotsCles(), comboBox, btnEffacerFiltres, btnDeconnexion,
 				btnVisualiserMonCompe);

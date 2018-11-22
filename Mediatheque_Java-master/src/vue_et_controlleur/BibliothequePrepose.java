@@ -3,20 +3,23 @@ package vue_et_controlleur;
 import java.util.ArrayList;
 
 import Objet.DVD;
-import Objet.Adherent;
 import Objet.Document;
-import Objet.Livre;
-import Objet.Periodique;
+import Objet.ListDocument;
 import Objet.ListeDVD;
 import Objet.ListeLivre;
 import Objet.ListePeriodique;
+import Objet.Livre;
+import Objet.Periodique;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -27,7 +30,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -40,8 +42,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import Objet.ListDocument;
-import Objet.ListeAdherant;
 
 public class BibliothequePrepose extends Stage {
 	public static Document document = null;
@@ -65,6 +65,10 @@ public class BibliothequePrepose extends Stage {
 
 	public BibliothequePrepose() {
 		try {
+			this.setOnCloseRequest(e -> {
+				deconnexion(e);
+			});
+
 			HBox root = createHBox();
 			Scene scene = new Scene(root, 890, 435);
 			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -139,7 +143,12 @@ public class BibliothequePrepose extends Stage {
 			txtMotscles.clear();
 			comboBox.setValue("Tous");
 		});
-
+		Button btnRetournerPret = new Button("Retourner un prêt");
+		btnRetournerPret.setOnAction(e -> {
+			this.close();
+			new GererLesPrets().show();
+		});
+		
 		Button btnAjouterPret = new Button("Ajouter un prêt");
 		btnAjouterPret.setOnAction(e -> {
 			document = tableDocument.getSelectionModel().getSelectedItem();
@@ -147,7 +156,8 @@ public class BibliothequePrepose extends Stage {
 				Alert alertAttention = new Alert(AlertType.WARNING);
 				alertAttention.setTitle("Attention");
 				alertAttention.setHeaderText("Attention");
-				alertAttention.setContentText("Vous devez sélectionner le document que vous aimeriez emprunter");
+				alertAttention
+						.setContentText("!!! Vous devez sélectionner le document que vous aimeriez emprunter !!!");
 				alertAttention.showAndWait();
 			} else {
 				if (!document.getEtat().equals("Disponible")) {
@@ -259,7 +269,8 @@ public class BibliothequePrepose extends Stage {
 				Alert alertAttention = new Alert(AlertType.WARNING);
 				alertAttention.setTitle("Attention");
 				alertAttention.setHeaderText("Attention");
-				alertAttention.setContentText("Vous devez sélectionner le document que vous aimeriez supprimer");
+				alertAttention
+						.setContentText("!!! Vous devez sélectionner le document que vous aimeriez supprimer !!!");
 				alertAttention.showAndWait();
 			}
 			this.close();
@@ -267,33 +278,17 @@ public class BibliothequePrepose extends Stage {
 
 		});
 
-		Button btnGererAdherant = new Button("Gerer les adhérants");
+		Button btnGererAdherant = new Button("Gérer les adhérants");
 		btnGererAdherant.setOnAction(e -> {
 			new GererLesAdherents().show();
 		});
-		Button btnDeconnexion = new Button("Deconnexion");
+		Button btnDeconnexion = new Button("Déconnexion");
 		btnDeconnexion.setOnAction(e -> {
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Confirmation");
-			alert.setHeaderText("Confirmation");
-			alert.setContentText("Êtes vous sur de vouloir vous déconnecter ?");
-			alert.showAndWait().ifPresent(response -> {
-				if (response == ButtonType.OK) {
-					this.close();
-					Login login = new Login();
-					try {
-						login.booPremiereFois = false;
-						login.start(new Stage());
-					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-			});
+			deconnexion(e);
 		});
 
 		vBox.getChildren().addAll(createVboxImage(), createHboxMotsCles(), comboBox, btnEffacerFiltres,
-				btnNouveauDocument, btnSupprimerDocument, btnAjouterPret, btnGererAdherant, btnDeconnexion);
+				btnNouveauDocument, btnSupprimerDocument, btnAjouterPret, btnRetournerPret, btnGererAdherant, btnDeconnexion);
 
 		return vBox;
 	}
@@ -476,4 +471,41 @@ public class BibliothequePrepose extends Stage {
 		return vBox;
 	}
 
+	private void deconnexion(Event event) {
+		event.consume();
+
+		/*
+		 * Alert alert = new Alert(AlertType.CONFIRMATION);
+		 * alert.setTitle("Confirmation"); alert.setHeaderText("Confirmation");
+		 * alert.setContentText("Êtes vous sur de vouloir vous déconnecter ?");
+		 * alert.showAndWait().ifPresent(response -> { if (response == ButtonType.OK) {
+		 * this.close(); Login login = new Login(); try { login.booPremiereFois = false;
+		 * login.start(new Stage()); } catch (Exception e1) { // TODO Auto-generated
+		 * catch block e1.printStackTrace(); } } });
+		 */
+
+		ButtonType btnTypeSave = new ButtonType("Déconnexion", ButtonBar.ButtonData.OK_DONE),
+				btnTypeAnnuler = new ButtonType("Rester", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+		Alert alert = new Alert(AlertType.CONFIRMATION, "Êtes-vous sûr de vouloir vous déconnecter ?", btnTypeSave,
+				btnTypeAnnuler);
+
+		alert.setTitle("Confirmation");
+		alert.setHeaderText("Confirmation");
+
+		alert.showAndWait().ifPresent(response -> {
+			if (response == btnTypeSave) {
+				this.close();
+
+				Login login = new Login();
+				try {
+					login.booPremiereFois = false;
+					login.start(new Stage());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+	}
 }

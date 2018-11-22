@@ -114,7 +114,7 @@ public class Serialisation {
 				Pret pret = new Pret(lstPret.get(i).getDateDePret(), lstPret.get(i).getDateRetourPreveu(),
 						lstPret.get(i).getDateEffectiveRetour(), lstPret.get(i).getAdherent(),
 						lstPret.get(i).getNoDoc(), lstPret.get(i).getDbAmende());
-				osPrepose.writeObject(pret);
+				osPret.writeObject(pret);
 			}
 			osPret.flush();
 			osPret.close();

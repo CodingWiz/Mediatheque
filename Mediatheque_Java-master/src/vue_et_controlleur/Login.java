@@ -2,11 +2,14 @@ package vue_et_controlleur;
 
 import java.io.File;
 
+import Objet.Adherent;
+import Objet.ListeAdherant;
 import Objet.ListePrepose;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
@@ -43,7 +46,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class Login extends Application {
@@ -53,6 +55,7 @@ public class Login extends Application {
 	 * "src/modele/documents/";
 	 */
 
+	 public static Adherent adherentConnecte = null;
 	private String strModele = "./modele/";
 
 	private Stage stage;
@@ -63,24 +66,24 @@ public class Login extends Application {
 
 	private RadioButton rbPrepose, rbAdherent;
 	private RadioButton rbConnexionTel, rbConnexionNomPrenom;
-	
+
 	private HBox hBoxTypeConnexion;
 
 	private Label lblTop;
 	private HBox hBoxTop;
-	
+
 	private Label lblPreposeNoUser, lblPreposePwd;
-	private Label lblTypeConnexion, lblAdherentNoTel, /*lblAdherentOu,*/ lblAdherentNom, lblAdherentPrenom;
+	private Label lblTypeConnexion, lblAdherentNoTel, /* lblAdherentOu, */ lblAdherentNom, lblAdherentPrenom;
 	private Label[] arrLbl;
 
 	private TextField textFieldPreposeNoUser;
 	private PasswordField pwdFieldPreposePwd;
-	
+
 	private TextField textFieldAdherentNoTel, textFieldAdherentNom, textFieldAdherentPrenom;
 	private TextField[] arrTextField;
-	
+
 	public boolean booPremiereFois = true;
-	
+
 	private Label lblMsgErreur;
 
 	private Button btnConnexion, btnInscription;
@@ -105,32 +108,8 @@ public class Login extends Application {
 
 		this.stage = primaryStage;
 
-		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-
-			@Override
-			public void handle(WindowEvent event) {
-				event.consume();
-
-				ButtonType btnTypeSave = new ButtonType("Sauvegarder", ButtonBar.ButtonData.OK_DONE),
-						btnTypeClose = new ButtonType("Quitter", ButtonBar.ButtonData.OK_DONE),
-						btnTypeAnnuler = new ButtonType("Rester", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-				Alert alert = new Alert(AlertType.CONFIRMATION, "�tes-vous s�r de vouloir quitter l'application ?",
-						btnTypeSave, btnTypeClose, btnTypeAnnuler);
-
-				alert.setTitle("Confirmation");
-				alert.setHeaderText("Confirmation");
-
-				alert.showAndWait().ifPresent(response -> {
-					if (response == btnTypeSave) {
-						Serialisation.getInstance();
-						System.exit(0);
-
-					} else if (response == btnTypeClose) {
-						System.exit(0);
-					}
-				});
-			}
+		primaryStage.setOnCloseRequest(e -> {
+			quitter(e);
 		});
 
 		BorderPane root = new BorderPane();
@@ -147,8 +126,8 @@ public class Login extends Application {
 		lblTop.setFont(font(20, null));
 
 		ToggleGroup tGroupTop = new ToggleGroup(), tGroupTypeConnexion = new ToggleGroup();
-		rbPrepose = new RadioButton("Pr�pos�");
-		rbAdherent = new RadioButton("Adh�rent");
+		rbPrepose = new RadioButton("Préposé");
+		rbAdherent = new RadioButton("Adhérent");
 
 		rbPrepose.setAlignment(Pos.CENTER);
 		rbAdherent.setAlignment(Pos.CENTER);
@@ -183,45 +162,45 @@ public class Login extends Application {
 
 		// Implementing Nodes for GridPane
 		hBoxTypeConnexion = new HBox(10);
-		
-		rbConnexionTel = new RadioButton("T�l�phone");
-		rbConnexionNomPrenom = new RadioButton("Nom et pr�nom");
-		
+
+		rbConnexionTel = new RadioButton("Téléphone");
+		rbConnexionNomPrenom = new RadioButton("Nom & prénom");
+
 		rbConnexionTel.setSelected(true);
-		
+
 		rbConnexionTel.setAlignment(Pos.CENTER);
 		rbConnexionNomPrenom.setAlignment(Pos.CENTER);
-		
+
 		rbConnexionTel.setToggleGroup(tGroupTypeConnexion);
 		rbConnexionNomPrenom.setToggleGroup(tGroupTypeConnexion);
-		
+
 		rbConnexionTel.setTextFill(Color.WHITE);
 		rbConnexionNomPrenom.setTextFill(Color.WHITE);
-		
+
 		rbConnexionTel.setFont(font(20, null));
 		rbConnexionNomPrenom.setFont(font(20, null));
-		
+
 		rbConnexionTel.setOnAction(new GestionConnexion());
 		rbConnexionNomPrenom.setOnAction(new GestionConnexion());
-		
+
 		hBoxTypeConnexion.setAlignment(Pos.CENTER);
 		hBoxTypeConnexion.getChildren().addAll(rbConnexionTel, rbConnexionNomPrenom);
-		
-		lblTypeConnexion = new Label("Se connecter par :");
-		lblPreposeNoUser = new Label("No. de l'employ� :");
+
+		lblTypeConnexion = new Label("Connexion par :");
+		lblPreposeNoUser = new Label("No. de l'employé :");
 		lblPreposePwd = new Label("Mot de passe :");
 		textFieldPreposeNoUser = new TextField();
 		pwdFieldPreposePwd = new PasswordField();
 
-		lblAdherentNoTel = new Label("No. de t�l�phone :");
-		//lblAdherentOu = new Label("OU");
+		lblAdherentNoTel = new Label("No. de téléphone :");
+		// lblAdherentOu = new Label("OU");
 		lblAdherentNom = new Label("Nom :");
-		lblAdherentPrenom = new Label("Pr�nom :");
+		lblAdherentPrenom = new Label("Prénom :");
 		textFieldAdherentNoTel = new TextField();
 		textFieldAdherentNom = new TextField();
 		textFieldAdherentPrenom = new TextField();
 
-		arrLbl = new Label[] { lblTypeConnexion, lblPreposeNoUser, lblPreposePwd, lblAdherentNoTel, /*lblAdherentOu,*/
+		arrLbl = new Label[] { lblTypeConnexion, lblPreposeNoUser, lblPreposePwd, lblAdherentNoTel, /* lblAdherentOu, */
 				lblAdherentNom, lblAdherentPrenom };
 		arrTextField = new TextField[] { textFieldPreposeNoUser, textFieldAdherentNoTel, textFieldAdherentNom,
 				textFieldAdherentPrenom };
@@ -313,27 +292,23 @@ public class Login extends Application {
 			GridPane.setHalignment(lbl, HPos.RIGHT);
 		}
 
-		//GridPane.setHalignment(lblAdherentOu, HPos.CENTER);
+		// GridPane.setHalignment(lblAdherentOu, HPos.CENTER);
 
 		GridPane.setHalignment(btnConnexion, HPos.RIGHT);
 		GridPane.setHalignment(btnInscription, HPos.RIGHT);
 
 		GridPane.setHalignment(lblMsgErreur, HPos.CENTER);
-		
+
 		/*
 		 * 
-		gridPane.add(lblTop, 0, 0);
-		gridPane.add(hBoxTop, 1, 0);
-		gridPane.add(lblPreposeNoUser, 0, 3);
-		gridPane.add(textFieldPreposeNoUser, 1, 3);
-		gridPane.add(lblPreposePwd, 0, 4);
-		gridPane.add(pwdFieldPreposePwd, 1, 4);
-		gridPane.add(btnConnexion, 1, 8);
-		gridPane.add(btnInscription, 1, 10);
+		 * gridPane.add(lblTop, 0, 0); gridPane.add(hBoxTop, 1, 0);
+		 * gridPane.add(lblPreposeNoUser, 0, 3); gridPane.add(textFieldPreposeNoUser, 1,
+		 * 3); gridPane.add(lblPreposePwd, 0, 4); gridPane.add(pwdFieldPreposePwd, 1,
+		 * 4); gridPane.add(btnConnexion, 1, 8); gridPane.add(btnInscription, 1, 10);
 		 */
 		gridPane.add(lblTop, 0, 0);
 		gridPane.add(hBoxTop, 1, 0);
-		
+
 		gridPane.add(btnInscription, 1, 4);
 		// gridPane.add(lblMsgErreur, 1, 15);
 
@@ -354,10 +329,10 @@ public class Login extends Application {
 				BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
 				new BackgroundSize(scene.getWidth() + 10, scene.getHeight() + 10, false, false, false, false))));
 
-		//loginPrepose(false);
+		// loginPrepose(false);
 
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Bienvenue � la m�diath�que - Connexion");
+		primaryStage.setTitle("Bienvenue à la médiathèque - Connexion");
 		primaryStage.setResizable(false);
 		primaryStage.show();
 	}
@@ -365,7 +340,7 @@ public class Login extends Application {
 	private void shake(String strErreur, boolean blnPrepose) {
 		retourSansErreur();
 
-		// si donnees prepose errone 
+		// si donnees prepose errone
 		if (blnPrepose) {
 			lblPreposeNoUser.setTextFill(Color.YELLOW);
 			lblPreposePwd.setTextFill(Color.YELLOW);
@@ -378,44 +353,42 @@ public class Login extends Application {
 			}
 
 			textFieldPreposeNoUser.requestFocus();
-		} 
+		}
 		// si donnees adherent errone
 		else {
 			// si adherent se connecte par telephone
 			if (rbConnexionTel.isSelected()) {
 				lblAdherentNoTel.setTextFill(Color.YELLOW);
-				
+
 				if (blnProfPasDeStyle) {
 					textFieldAdherentNoTel.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.SOLID,
 							CornerRadii.EMPTY, new BorderWidths(1))));
 				}
-				
+
 				textFieldAdherentNoTel.requestFocus();
 			}
 			// si adherent se connecte par nom et prenom
 			else if (rbConnexionNomPrenom.isSelected()) {
 				lblAdherentNom.setTextFill(Color.YELLOW);
 				lblAdherentPrenom.setTextFill(Color.YELLOW);
-				
+
 				if (blnProfPasDeStyle) {
 					textFieldAdherentNom.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.SOLID,
 							CornerRadii.EMPTY, new BorderWidths(1))));
-					
+
 					textFieldAdherentPrenom.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.SOLID,
 							CornerRadii.EMPTY, new BorderWidths(1))));
 				}
-				
+
 				textFieldAdherentNom.requestFocus();
 			}
 
-			/*if (blnProfPasDeStyle) {
-				for (TextField textField : arrTextField) {
-					if (textField != textFieldPreposeNoUser) {
-						textField.setBorder(new Border(new BorderStroke(Color.YELLOW, BorderStrokeStyle.SOLID,
-								CornerRadii.EMPTY, new BorderWidths(1))));
-					}
-				}
-			}*/
+			/*
+			 * if (blnProfPasDeStyle) { for (TextField textField : arrTextField) { if
+			 * (textField != textFieldPreposeNoUser) { textField.setBorder(new Border(new
+			 * BorderStroke(Color.YELLOW, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new
+			 * BorderWidths(1)))); } } }
+			 */
 		}
 
 		// lblMsgErreur.setText("No prepose ou mot de passe incorrecte");
@@ -455,113 +428,94 @@ public class Login extends Application {
 		timelineY.play();
 	}
 
-	/*
-	 * TODO check si les donn�es entr�es sont valides et sont dans les fichiers
-	 * s�rialis�s
-	 */
 	private boolean connexionTest() {
 		boolean blnConnexion = true, booOk = false;
-		
+
 		// si prepose se connecte
 		if (rbPrepose.isSelected()) {
 			if (!textFieldPreposeNoUser.getText().isEmpty() && !pwdFieldPreposePwd.getText().isEmpty()) {
 				String noEmp = textFieldPreposeNoUser.getText();
 				String mdp = pwdFieldPreposePwd.getText();
-				
+
 				for (int i = 0; i < ListePrepose.getLstPreposeATrouver().size(); i++) {
-					if (ListePrepose.getLstPreposeATrouver().get(i).getStrNoPrepose().equals(noEmp)) {
-						if (ListePrepose.getLstPreposeATrouver().get(i).getStrPassword().equals(mdp)) {
-							booOk = true;
-							break;
-							/*
-							 * stage.close(); new BibliothequePrepose().show();
-							 */
-						}
+					if (ListePrepose.getLstPreposeATrouver().get(i).getStrNoPrepose().equals(noEmp)
+							&& ListePrepose.getLstPreposeATrouver().get(i).getStrPassword().equals(mdp)) {
+						booOk = true;
+						break;
 
 					}
 
 				}
 
-				// Le no. utilisateur et/ou mot de passe n'est pas trouve dans la liste du fichier serialise
+				// Le no. utilisateur et/ou mot de passe n'est pas trouve dans la liste du
+				// fichier serialise
 				if (!booOk) {
 					blnConnexion = false;
-					shake("No. de l'employ� et/ou mot de passe erron�", true);
+					shake("No. de l'employé et/ou mot de passe erroné", true);
 				}
-				
+
 				pwdFieldPreposePwd.clear();
+				textFieldPreposeNoUser.requestFocus();
 			} else {
 				blnConnexion = false;
-				shake("No. de l'employ� et/ou mot de passe vide", true);
+				shake("No. de l'employé et/ou mot de passe vide", true);
 			}
-		} 
+		}
 		// si adherent se connecte
 		else if (rbAdherent.isSelected()) {
 			// si adherent se connecte par telephone
 			if (rbConnexionTel.isSelected()) {
 				if (!textFieldAdherentNoTel.getText().isEmpty()) {
-					String noEmp = textFieldPreposeNoUser.getText();
-					String mdp = pwdFieldPreposePwd.getText();
-					
-					for (int i = 0; i < ListePrepose.getLstPreposeATrouver().size(); i++) {
-						if (ListePrepose.getLstPreposeATrouver().get(i).getStrNoPrepose().equals(noEmp)) {
-							if (ListePrepose.getLstPreposeATrouver().get(i).getStrPassword().equals(mdp)) {
-								booOk = true;
-								break;
-								/*
-								 * stage.close(); new BibliothequePrepose().show();
-								 */
-							}
+					String noTel = textFieldAdherentNoTel.getText();
 
+					for (int i = 0; i < ListeAdherant.getLstAdherantATrouver().size(); i++) {
+						if (ListeAdherant.getLstAdherantATrouver().get(i).getStrTelephone().equals(noTel)) {
+							adherentConnecte = ListeAdherant.getLstAdherantATrouver().get(i);
+							booOk = true;
+							break;
 						}
 
 					}
-					
-					/*
-					 * TODO verification des donnees
-					 */
+
 					// Le no. telephone n'est pas trouve dans la liste du fichier serialise
-					if (!textFieldAdherentNoTel.getText().equals("123") || !(textFieldAdherentNom.getText().equals("m")
-							&& textFieldAdherentPrenom.getText().equals("h"))) {
+					if (!booOk) {
 						blnConnexion = false;
-						shake("No. de t�l�phone erron�", false);
+						shake("No. de téléphone erroné", false);
 					}
+
+					textFieldAdherentNoTel.requestFocus();
 				} else {
 					blnConnexion = false;
-					shake("No. de t�l�phone vide", false);
+					shake("No. de téléphone vide", false);
 				}
-			} 
+			}
 			// si adherent se connecte par nom et prenom
 			else if (rbConnexionNomPrenom.isSelected()) {
 				if (!textFieldAdherentNom.getText().isEmpty() && !textFieldAdherentPrenom.getText().isEmpty()) {
-					String noEmp = textFieldPreposeNoUser.getText();
-					String mdp = pwdFieldPreposePwd.getText();
-					
-					for (int i = 0; i < ListePrepose.getLstPreposeATrouver().size(); i++) {
-						if (ListePrepose.getLstPreposeATrouver().get(i).getStrNoPrepose().equals(noEmp)) {
-							if (ListePrepose.getLstPreposeATrouver().get(i).getStrPassword().equals(mdp)) {
-								booOk = true;
-								break;
-								/*
-								 * stage.close(); new BibliothequePrepose().show();
-								 */
-							}
+					String nom = textFieldAdherentNom.getText();
+					String prenom = textFieldAdherentPrenom.getText();
+
+					for (int i = 0; i < ListeAdherant.getLstAdherantATrouver().size(); i++) {
+						if (ListeAdherant.getLstAdherantATrouver().get(i).getStrNom().equals(nom)
+								&& ListeAdherant.getLstAdherantATrouver().get(i).getStrPrenom().equals(prenom)) {
+							adherentConnecte = ListeAdherant.getLstAdherantATrouver().get(i);
+							booOk = true;
+							break;
 
 						}
 
 					}
-					
-					/*
-					 * TODO verification des donnees
-					 */
+
 					// Le nom et/ou prenom n'est pas trouve dans la liste du fichier serialise
-					if (!textFieldAdherentNoTel.getText().equals("123") || !(textFieldAdherentNom.getText().equals("m")
-							&& textFieldAdherentPrenom.getText().equals("h"))) {
+					if (!booOk) {
 						blnConnexion = false;
-						shake("Nom et/ou pr�nom erron�", false);
+						shake("Nom et/ou prénom erroné", false);
 					}
+
+					textFieldAdherentNom.requestFocus();
 				} else {
 					blnConnexion = false;
-					shake("Nom et/ou pr�nom vide", false);
+					shake("Nom et/ou prénom vide", false);
 				}
 			}
 		}
@@ -580,9 +534,9 @@ public class Login extends Application {
 		 */
 
 		if (blnAffiche) {
-			gridPane.add(lblTop, 0, 0); 
+			gridPane.add(lblTop, 0, 0);
 			gridPane.add(hBoxTop, 1, 0);
-			
+
 			gridPane.add(lblPreposeNoUser, 0, 3);
 			gridPane.add(textFieldPreposeNoUser, 1, 3);
 			gridPane.add(lblPreposePwd, 0, 4);
@@ -595,7 +549,7 @@ public class Login extends Application {
 		} else {
 			gridPane.getChildren().remove(lblTop);
 			gridPane.getChildren().remove(hBoxTop);
-			
+
 			gridPane.getChildren().remove(lblPreposeNoUser);
 			gridPane.getChildren().remove(lblPreposePwd);
 			gridPane.getChildren().remove(textFieldPreposeNoUser);
@@ -620,25 +574,21 @@ public class Login extends Application {
 
 		if (blnAffiche) {
 			/*
-			 * gridPane.add(lblTypeConnexion, 0, 3);
-				gridPane.add(lblAdherentNoTel, 0, 4);
-				gridPane.add(lblAdherentNom, 0, 6);
-				gridPane.add(lblAdherentPrenom, 0, 7);
-
-				gridPane.add(hBoxTypeConnexion, 1, 3);
-				gridPane.add(textFieldAdherentNoTel, 1, 4);
-				gridPane.add(lblAdherentOu, 1, 5);
-				gridPane.add(textFieldAdherentNom, 1, 6);
-				gridPane.add(textFieldAdherentPrenom, 1, 7);
-
-				gridPane.add(btnConnexion, 1, 11);
-
-				gridPane.getChildren().remove(btnInscription);
-				gridPane.add(btnInscription, 1, 13);
+			 * gridPane.add(lblTypeConnexion, 0, 3); gridPane.add(lblAdherentNoTel, 0, 4);
+			 * gridPane.add(lblAdherentNom, 0, 6); gridPane.add(lblAdherentPrenom, 0, 7);
+			 * 
+			 * gridPane.add(hBoxTypeConnexion, 1, 3); gridPane.add(textFieldAdherentNoTel,
+			 * 1, 4); gridPane.add(lblAdherentOu, 1, 5); gridPane.add(textFieldAdherentNom,
+			 * 1, 6); gridPane.add(textFieldAdherentPrenom, 1, 7);
+			 * 
+			 * gridPane.add(btnConnexion, 1, 11);
+			 * 
+			 * gridPane.getChildren().remove(btnInscription); gridPane.add(btnInscription,
+			 * 1, 13);
 			 */
-			gridPane.add(lblTop, 0, 0); 
+			gridPane.add(lblTop, 0, 0);
 			gridPane.add(hBoxTop, 1, 0);
-			
+
 			if (rbConnexionTel.isSelected()) {
 				gridPane.add(lblTypeConnexion, 0, 3);
 				gridPane.add(lblAdherentNoTel, 0, 4);
@@ -664,28 +614,27 @@ public class Login extends Application {
 				gridPane.getChildren().remove(btnInscription);
 				gridPane.add(btnInscription, 1, 11);
 			}
-		} 
-		else {
+		} else {
 			/*
 			 * gridPane.getChildren().remove(lblTypeConnexion);
-				gridPane.getChildren().remove(lblAdherentNoTel);
-				gridPane.getChildren().remove(lblAdherentNom);
-				gridPane.getChildren().remove(lblAdherentPrenom);
-
-				gridPane.getChildren().remove(hBoxTypeConnexion);
-				gridPane.getChildren().remove(textFieldAdherentNoTel);
-				gridPane.getChildren().remove(lblAdherentOu);
-				gridPane.getChildren().remove(textFieldAdherentNom);
-				gridPane.getChildren().remove(textFieldAdherentPrenom);
-
-				gridPane.getChildren().remove(btnConnexion);
-
-				gridPane.getChildren().remove(btnInscription);
-				gridPane.add(btnInscription, 1, 4);
+			 * gridPane.getChildren().remove(lblAdherentNoTel);
+			 * gridPane.getChildren().remove(lblAdherentNom);
+			 * gridPane.getChildren().remove(lblAdherentPrenom);
+			 * 
+			 * gridPane.getChildren().remove(hBoxTypeConnexion);
+			 * gridPane.getChildren().remove(textFieldAdherentNoTel);
+			 * gridPane.getChildren().remove(lblAdherentOu);
+			 * gridPane.getChildren().remove(textFieldAdherentNom);
+			 * gridPane.getChildren().remove(textFieldAdherentPrenom);
+			 * 
+			 * gridPane.getChildren().remove(btnConnexion);
+			 * 
+			 * gridPane.getChildren().remove(btnInscription); gridPane.add(btnInscription,
+			 * 1, 4);
 			 */
 			gridPane.getChildren().remove(lblTop);
 			gridPane.getChildren().remove(hBoxTop);
-			
+
 			if (rbConnexionNomPrenom.isSelected()) {
 				gridPane.getChildren().remove(lblTypeConnexion);
 				gridPane.getChildren().remove(lblAdherentNoTel);
@@ -707,22 +656,21 @@ public class Login extends Application {
 				gridPane.getChildren().remove(textFieldAdherentPrenom);
 
 				gridPane.getChildren().remove(btnConnexion);
-				
+
 				gridPane.getChildren().remove(btnInscription);
 				gridPane.add(btnInscription, 1, 4);
 			}
 		}
 	}
-	
+
 	private void connexion() {
 		if (connexionTest()) {
 			retourSansErreur();
 			stage.close();
-			
+
 			if (rbPrepose.isSelected()) {
 				new BibliothequePrepose().show();
-			}
-			else if (rbAdherent.isSelected()) {
+			} else if (rbAdherent.isSelected()) {
 				new BibliothequeAdherant().show();
 			}
 		}
@@ -733,29 +681,47 @@ public class Login extends Application {
 		@Override
 		public void handle(ActionEvent event) {
 			if (event.getSource() == rbPrepose) {
+				retourSansErreur();
+
+				if (rbConnexionTel.isSelected()) {
+					textFieldAdherentNoTel.clear();
+				} else if (rbConnexionNomPrenom.isSelected()) {
+					textFieldAdherentNom.clear();
+					textFieldAdherentPrenom.clear();
+				}
+
 				loginAdherent(false);
 				gridPane.getChildren().clear();
 				loginPrepose(true);
 			} else if (event.getSource() == rbAdherent) {
+				retourSansErreur();
+
+				textFieldPreposeNoUser.clear();
+				pwdFieldPreposePwd.clear();
+
 				loginPrepose(false);
 				gridPane.getChildren().clear();
 				loginAdherent(true);
 			} else if (event.getSource() == rbConnexionTel) {
+				retourSansErreur();
+
 				textFieldAdherentNom.clear();
 				textFieldAdherentPrenom.clear();
-				
+
 				loginAdherent(false);
 				gridPane.getChildren().clear();
 				loginAdherent(true);
-				
+
 				textFieldAdherentNoTel.requestFocus();
 			} else if (event.getSource() == rbConnexionNomPrenom) {
+				retourSansErreur();
+
 				textFieldAdherentNoTel.clear();
-				
+
 				loginAdherent(false);
 				gridPane.getChildren().clear();
 				loginAdherent(true);
-				
+
 				textFieldAdherentNom.requestFocus();
 			} else if (event.getSource() == btnConnexion) {
 				connexion();
@@ -778,7 +744,37 @@ public class Login extends Application {
 		}
 	}
 
+	private void quitter(Event event) {
+		event.consume();
+
+		ButtonType btnTypeSave = new ButtonType("Sauvegarder", ButtonBar.ButtonData.OK_DONE),
+				btnTypeClose = new ButtonType("Quitter", ButtonBar.ButtonData.OK_DONE),
+				btnTypeAnnuler = new ButtonType("Rester", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+		Alert alert = new Alert(AlertType.CONFIRMATION, "Êtes-vous sûr de vouloir quitter l'application ?", btnTypeSave,
+				btnTypeClose, btnTypeAnnuler);
+
+		alert.setTitle("Confirmation");
+		alert.setHeaderText("Confirmation");
+
+		alert.showAndWait().ifPresent(response -> {
+			if (response == btnTypeSave) {
+				Serialisation.getInstance();
+				System.exit(0);
+
+			} else if (response == btnTypeClose) {
+				System.exit(0);
+			}
+		});
+	}
+
 	private void retourSansErreur() {
+		rbPrepose.setTextFill(Color.WHITE);
+		rbAdherent.setTextFill(Color.WHITE);
+
+		rbConnexionTel.setTextFill(Color.WHITE);
+		rbConnexionNomPrenom.setTextFill(Color.WHITE);
+
 		for (Label lbl : arrLbl) {
 			lbl.setTextFill(Color.WHITE);
 		}

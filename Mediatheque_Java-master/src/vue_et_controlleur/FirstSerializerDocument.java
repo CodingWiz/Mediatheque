@@ -92,11 +92,11 @@ public class FirstSerializerDocument {
 			FileOutputStream fichierPrepose = new FileOutputStream("prepose.ser");    
 			ObjectOutputStream osPrepose = new ObjectOutputStream(fichierPrepose);
 			
+			/*FileOutputStream fichierPret = new FileOutputStream("pret.ser");    
+			ObjectOutputStream osPret = new ObjectOutputStream(fichierPret);*/
+			
 			FileOutputStream fichierPret = new FileOutputStream("pret.ser");    
 			ObjectOutputStream osPret = new ObjectOutputStream(fichierPret);
-			
-			/*FileOutputStream fichierPret = new FileOutputStream("prêt.ser");    
-			ObjectOutputStream osPret = new ObjectOutputStream(fichierPret);*/
 			
 			
 			

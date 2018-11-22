@@ -13,7 +13,7 @@ public class Pret implements Serializable {
 	Adherent Adherent;
 	Document noDoc;
 	String dbAmende;
-	
+
 	public Pret(String dateDePret, String dateRetourPreveu, String dateEffectiveRetour, Adherent Adherent,
 			Document noDoc, String dbAmende) {
 		super();
@@ -80,10 +80,7 @@ public class Pret implements Serializable {
 	@Override
 	public String toString() {
 		return "Pret [dateDePret=" + dateDePret + ", dateRetourPreveu=" + dateRetourPreveu + ", dateEffectiveRetour="
-				+ dateEffectiveRetour + ", Adherent=" + Adherent + ", noDoc=" + noDoc + ", dbAmende=" + dbAmende
-				+ "]";
+				+ dateEffectiveRetour + ", Adherent=" + Adherent + ", noDoc=" + noDoc + ", dbAmende=" + dbAmende + "]";
 	}
-
-	
 
 }

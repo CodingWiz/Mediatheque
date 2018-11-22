@@ -1,14 +1,10 @@
 package Objet;
 
-
 import java.io.Serializable;
 
-public class Document implements Serializable{
-	/**
-	 * 
-	 */
+public class Document implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private String noDoc;
 	private String titre;
 	private String dateParution;
@@ -23,7 +19,7 @@ public class Document implements Serializable{
 		this.etat = etat;
 		this.motsclés = motsclés;
 	}
-	
+
 	public void setNoDoc(String noDoc) {
 		this.noDoc = noDoc;
 	}
@@ -63,13 +59,9 @@ public class Document implements Serializable{
 	public String getMotsclés() {
 		return motsclés;
 	}
-	
+
 	public String toString() {
-		return ("Numero du document : " + noDoc 
-				+ "\nTitre : " + titre 
-				+ "\nDate de parution : " + dateParution
-				+ "\nÉtat : " + etat 
-				+ "\nMotsclés : " + motsclés);
+		return (noDoc);
 	}
 
 }
