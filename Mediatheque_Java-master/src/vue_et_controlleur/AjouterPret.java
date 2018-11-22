@@ -2,13 +2,11 @@ package vue_et_controlleur;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import Objet.Adherent;
-import Objet.DVD;
 import Objet.Document;
 import Objet.ListDocument;
 import Objet.ListeAdherant;
@@ -16,8 +14,6 @@ import Objet.ListeDVD;
 import Objet.ListeLivre;
 import Objet.ListePeriodique;
 import Objet.ListePret;
-import Objet.Livre;
-import Objet.Periodique;
 import Objet.Pret;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -25,12 +21,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -115,8 +111,8 @@ public class AjouterPret extends Stage {
 				if (strPremiereLettreNoDoc.equals("D")) {
 					calendar.add(Calendar.DATE, 7);
 					dateRetour = ft.format(calendar.getTime());
-					for(int i = 0; i<ListeDVD.getLstDVDATrouver().size(); i++) {
-						if(ListeDVD.getLstDVDATrouver().get(i).getNoDoc().equals(documentSelectionne.getNoDoc())) {
+					for (int i = 0; i < ListeDVD.getLstDVDATrouver().size(); i++) {
+						if (ListeDVD.getLstDVDATrouver().get(i).getNoDoc().equals(documentSelectionne.getNoDoc())) {
 							ListeDVD.getLstDVDATrouver().get(i).setEtat("Emprunté");
 						}
 					}
@@ -126,9 +122,9 @@ public class AjouterPret extends Stage {
 					 */
 
 				} else if (strPremiereLettreNoDoc.equals("L")) {
-					for(int i = 0; i<ListeLivre.getLstLivreATrouver().size(); i++) {
-						if(ListeLivre.getLstLivreATrouver().get(i).getNoDoc().equals(documentSelectionne.getNoDoc())){
-						ListeLivre.getLstLivreATrouver().get(i).setEtat("Emprunté");
+					for (int i = 0; i < ListeLivre.getLstLivreATrouver().size(); i++) {
+						if (ListeLivre.getLstLivreATrouver().get(i).getNoDoc().equals(documentSelectionne.getNoDoc())) {
+							ListeLivre.getLstLivreATrouver().get(i).setEtat("Emprunté");
 						}
 					}
 					calendar.add(Calendar.DATE, 14);
@@ -138,12 +134,13 @@ public class AjouterPret extends Stage {
 					 * ListeLivre.supprimerLivre(l); } }
 					 */
 				} else if (strPremiereLettreNoDoc.equals("P")) {
-					for(int i = 0; i<ListePeriodique.getLstPeriodiqueATrouver().size(); i++) {
-						if(ListePeriodique.getLstPeriodiqueATrouver().get(i).getNoDoc().equals(documentSelectionne.getNoDoc())){
-						ListePeriodique.getLstPeriodiqueATrouver().get(i).setEtat("Emprunté");
+					for (int i = 0; i < ListePeriodique.getLstPeriodiqueATrouver().size(); i++) {
+						if (ListePeriodique.getLstPeriodiqueATrouver().get(i).getNoDoc()
+								.equals(documentSelectionne.getNoDoc())) {
+							ListePeriodique.getLstPeriodiqueATrouver().get(i).setEtat("Emprunté");
 						}
 					}
-					
+
 					calendar.add(Calendar.DATE, 3);
 					dateRetour = ft.format(calendar.getTime());
 					/*
@@ -160,14 +157,13 @@ public class AjouterPret extends Stage {
 				}
 				ListePret.ajouterPret(new Pret(dateDuJour, dateRetour, "", adherent, documentSelectionne, "0"));
 				documentSelectionne.setEtat("Emprunté");
-				
-				for(int i = 0; i<ListDocument.getLstAllDocument().size(); i++) {
-					if(ListDocument.getLstAllDocument().get(i).equals(documentSelectionne)) {
+
+				for (int i = 0; i < ListDocument.getLstAllDocument().size(); i++) {
+					if (ListDocument.getLstAllDocument().get(i).equals(documentSelectionne)) {
 						ListDocument.getLstAllDocument().get(i).setEtat("Emprunté");
 					}
 				}
-				
-				
+
 				this.close();
 			}
 		});

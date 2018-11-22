@@ -2,86 +2,64 @@ package Objet;
 
 import java.io.Serializable;
 
-public class Personne implements Serializable{
-/**
-	 * 
-	 */
+public class Personne implements Serializable {
+	/**
+		 * 
+		 */
 	private static final long serialVersionUID = 2L;
-private String strNom;
-private String strPrenom;
-private String strAdresse;
-private String strTelephone;
+	private String strNom;
+	private String strPrenom;
+	private String strAdresse;
+	private String strTelephone;
 
+	public Personne(String strNom, String strPrenom, String strAdresse, String strTelephone) {
 
+		this.strNom = strNom;
+		this.strPrenom = strPrenom;
+		this.strAdresse = strAdresse;
+		this.strTelephone = strTelephone;
+	}
 
-public Personne(String strNom, String strPrenom, String strAdresse, String strTelephone) {
+	public void ajouter() {
+	}
 
-	this.strNom = strNom;
-	this.strPrenom = strPrenom;
-	this.strAdresse = strAdresse;
-	this.strTelephone = strTelephone;
-}
+	public String getStrNom() {
+		return strNom;
+	}
 
+	public void setStrNom(String strNom) {
+		this.strNom = strNom;
+	}
 
+	public String getStrPrenom() {
+		return strPrenom;
+	}
 
-public void ajouter() {
-}
+	public void setStrPrenom(String strPrenom) {
+		this.strPrenom = strPrenom;
+	}
 
-public String getStrNom() {
-	return strNom;
-}
+	public String getStrAdresse() {
+		return strAdresse;
+	}
 
+	public void setStrAdresse(String strAdresse) {
+		this.strAdresse = strAdresse;
+	}
 
+	public String getStrTelephone() {
+		return strTelephone;
+	}
 
-public void setStrNom(String strNom) {
-	this.strNom = strNom;
-}
+	public void setStrTelephone(String strTelephone) {
+		this.strTelephone = strTelephone;
+	}
 
+	public void modifer() {
+	}
 
+	public void supprimer() {
 
-public String getStrPrenom() {
-	return strPrenom;
-}
-
-
-
-public void setStrPrenom(String strPrenom) {
-	this.strPrenom = strPrenom;
-}
-
-
-
-public String getStrAdresse() {
-	return strAdresse;
-}
-
-
-
-public void setStrAdresse(String strAdresse) {
-	this.strAdresse = strAdresse;
-}
-
-
-
-public String getStrTelephone() {
-	return strTelephone;
-}
-
-
-
-public void setStrTelephone(String strTelephone) {
-	this.strTelephone = strTelephone;
-}
-
-
-
-public void modifer() {	
-}
-
-public void supprimer() {
-	
-}
-
-
+	}
 
 }

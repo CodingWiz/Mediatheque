@@ -148,7 +148,7 @@ public class BibliothequePrepose extends Stage {
 			this.close();
 			new GererLesPrets().show();
 		});
-		
+
 		Button btnAjouterPret = new Button("Ajouter un prêt");
 		btnAjouterPret.setOnAction(e -> {
 			document = tableDocument.getSelectionModel().getSelectedItem();
@@ -281,7 +281,7 @@ public class BibliothequePrepose extends Stage {
 		Button btnGererAdherant = new Button("Gérer les adhérants");
 		btnGererAdherant.setOnAction(e -> {
 			this.close();
-			
+
 			new GererLesAdherents().show();
 		});
 		Button btnDeconnexion = new Button("Déconnexion");
@@ -290,7 +290,8 @@ public class BibliothequePrepose extends Stage {
 		});
 
 		vBox.getChildren().addAll(createVboxImage(), createHboxMotsCles(), comboBox, btnEffacerFiltres,
-				btnNouveauDocument, btnSupprimerDocument, btnAjouterPret, btnRetournerPret, btnGererAdherant, btnDeconnexion);
+				btnNouveauDocument, btnSupprimerDocument, btnAjouterPret, btnRetournerPret, btnGererAdherant,
+				btnDeconnexion);
 
 		return vBox;
 	}

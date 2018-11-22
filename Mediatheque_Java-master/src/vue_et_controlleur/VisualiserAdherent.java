@@ -2,10 +2,10 @@ package vue_et_controlleur;
 
 import java.util.ArrayList;
 
-import Objet.Pret;
 import Objet.Adherent;
 import Objet.Document;
 import Objet.ListePret;
+import Objet.Pret;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -183,7 +183,8 @@ public class VisualiserAdherent extends Stage {
 				"Date du retour effective");
 		TableColumn<Pret, Document> colonneNoDoc = new TableColumn<Pret, Document>("Numéro du document");
 		TableColumn<Pret, Double> colonneAmande = new TableColumn<Pret, Double>("Amende");
-		tablePret.getColumns().addAll(colonneNoDoc, colonneDateEmpruntPreveu, colonneDateRetourPreveu, colonneDateEffectiveRetour, colonneAmande);
+		tablePret.getColumns().addAll(colonneNoDoc, colonneDateEmpruntPreveu, colonneDateRetourPreveu,
+				colonneDateEffectiveRetour, colonneAmande);
 
 		HBox hboxDetteTotal = new HBox();
 		hboxDetteTotal.setPadding(new Insets(15));

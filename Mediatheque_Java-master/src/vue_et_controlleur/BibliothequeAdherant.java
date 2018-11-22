@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import Objet.Adherent;
 import Objet.DVD;
 import Objet.Document;
-import Objet.Livre;
-import Objet.Periodique;
+import Objet.LectureDesFichiers;
+import Objet.ListDocument;
 import Objet.ListeDVD;
 import Objet.ListeLivre;
 import Objet.ListePeriodique;
+import Objet.Livre;
+import Objet.Periodique;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -17,6 +19,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -27,7 +30,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -40,8 +42,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import Objet.LectureDesFichiers;
-import Objet.ListDocument;
 
 public class BibliothequeAdherant extends Stage {
 
@@ -64,8 +64,10 @@ public class BibliothequeAdherant extends Stage {
 
 	public BibliothequeAdherant() {
 		try {
-			this.setOnCloseRequest(e-> {deconnexion(e);});
-			
+			this.setOnCloseRequest(e -> {
+				deconnexion(e);
+			});
+
 			HBox root = createHBox();
 			Scene scene = new Scene(root, 890, 435);
 			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -347,7 +349,7 @@ public class BibliothequeAdherant extends Stage {
 
 		return vBox;
 	}
-	
+
 	private void deconnexion(Event event) {
 		event.consume();
 

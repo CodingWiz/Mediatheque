@@ -13,13 +13,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,8 +41,10 @@ public class GererLesPrets extends Stage {
 	ListView<Pret> lstviewPret = new ListView<>(pret);
 
 	public GererLesPrets() {
-		this.setOnCloseRequest(e -> {retourABibliotheque(e);});
-		
+		this.setOnCloseRequest(e -> {
+			retourABibliotheque(e);
+		});
+
 		try {
 			HBox root = createHBox();
 			Scene scene = new Scene(root, 960, 435);
@@ -77,54 +79,55 @@ public class GererLesPrets extends Stage {
 		// Button btnModifier = new Button("Modifier");
 		Button btnFaireRetour = new Button("Faire retour");
 		btnFaireRetour.setOnAction(e -> {
+			Pret pretDoc = tablePret.getSelectionModel().getSelectedItem();
 
-			if (tablePret.getSelectionModel().getSelectedItem().equals(null)) {
+			if (pretDoc == null /* tablePret.getSelectionModel().getSelectedItem().equals(null) */) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Erreur");
 				alert.setHeaderText("Erreur");
 				alert.setContentText("Veuillez séléctionner le prêt de la liste que vous voudriez retourner");
 				alert.showAndWait();
+			} else {
+				Alert alert = new Alert(AlertType.CONFIRMATION);
+				alert.setTitle("Confirmation");
+				alert.setHeaderText("Confirmation");
+				alert.setContentText("Êtes-vous sûr de vouloir vous retourner ce prêt ?");
+				alert.showAndWait().ifPresent(response -> {
+					if (response == ButtonType.OK) {
+						Pret Pret = tablePret.getSelectionModel().getSelectedItem();
+						for (int i = 0; i < ListDocument.getLstAllDocument().size(); i++) {
+							if (ListDocument.getLstAllDocument().get(i).getNoDoc().equals(Pret.getNoDoc().getNoDoc())) {
+								ListDocument.getLstAllDocument().get(i).setEtat("Disponible");
+							}
+						}
+						for (int i = 0; i < ListeDVD.getLstDVDATrouver().size(); i++) {
+							if (ListeDVD.getLstDVDATrouver().get(i).getNoDoc().equals(Pret.getNoDoc().getNoDoc())) {
+								ListeDVD.getLstDVDATrouver().get(i).setEtat("Disponible");
+							}
+						}
+						for (int i = 0; i < ListeLivre.getLstLivreATrouver().size(); i++) {
+							if (ListeLivre.getLstLivreATrouver().get(i).getNoDoc().equals(Pret.getNoDoc().getNoDoc())) {
+								ListeLivre.getLstLivreATrouver().get(i).setEtat("Disponible");
+							}
+						}
+						for (int i = 0; i < ListePeriodique.getLstPeriodiqueATrouver().size(); i++) {
+							if (ListePeriodique.getLstPeriodiqueATrouver().get(i).getNoDoc()
+									.equals(Pret.getNoDoc().getNoDoc())) {
+								ListePeriodique.getLstPeriodiqueATrouver().get(i).setEtat("Disponible");
+							}
+						}
+						int index = 0;
+						for (int i = 0; i < ListePret.getLstPretATrouver().size(); i++) {
+							if (ListePret.getLstPretATrouver().get(i) == Pret) {
+								index = i;
+							}
+						}
+						pret.remove(index);
+						ListePret.supprimerPret(Pret);
+
+					}
+				});
 			}
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Confirmation");
-			alert.setHeaderText("Confirmation");
-			alert.setContentText("Êtes-vous sûr de vouloir vous retourner ce prêt ?");
-			alert.showAndWait().ifPresent(response -> {
-				if (response == ButtonType.OK) {
-					Pret Pret = tablePret.getSelectionModel().getSelectedItem();
-					for (int i = 0; i < ListDocument.getLstAllDocument().size(); i++) {
-						if (ListDocument.getLstAllDocument().get(i).getNoDoc().equals(Pret.getNoDoc().getNoDoc())) {
-							ListDocument.getLstAllDocument().get(i).setEtat("Disponible");
-						}
-					}
-					for (int i = 0; i < ListeDVD.getLstDVDATrouver().size(); i++) {
-						if (ListeDVD.getLstDVDATrouver().get(i).getNoDoc().equals(Pret.getNoDoc().getNoDoc())) {
-							ListeDVD.getLstDVDATrouver().get(i).setEtat("Disponible");
-						}
-					}
-					for (int i = 0; i < ListeLivre.getLstLivreATrouver().size(); i++) {
-						if (ListeLivre.getLstLivreATrouver().get(i).getNoDoc().equals(Pret.getNoDoc().getNoDoc())) {
-							ListeLivre.getLstLivreATrouver().get(i).setEtat("Disponible");
-						}
-					}
-					for (int i = 0; i < ListePeriodique.getLstPeriodiqueATrouver().size(); i++) {
-						if (ListePeriodique.getLstPeriodiqueATrouver().get(i).getNoDoc()
-								.equals(Pret.getNoDoc().getNoDoc())) {
-							ListePeriodique.getLstPeriodiqueATrouver().get(i).setEtat("Disponible");
-						}
-					}
-					int index = 0;
-					for (int i = 0; i < ListePret.getLstPretATrouver().size(); i++) {
-						if (ListePret.getLstPretATrouver().get(i) == Pret) {
-							index = i;
-						}
-					}
-					pret.remove(index);
-					ListePret.supprimerPret(Pret);
-
-				}
-			});
-
 		});
 
 		Button btnRetour = new Button("Retour à la bibliothèque");
@@ -187,7 +190,7 @@ public class GererLesPrets extends Stage {
 
 		return vBox;
 	}
-	
+
 	private void retourABibliotheque(Event e) {
 		e.consume();
 

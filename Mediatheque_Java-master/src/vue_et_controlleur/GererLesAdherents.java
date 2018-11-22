@@ -1,11 +1,7 @@
 package vue_et_controlleur;
 
-import java.util.ArrayList;
-
 import Objet.Adherent;
 import Objet.ListeAdherant;
-import Objet.ListePret;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -13,12 +9,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -122,7 +118,7 @@ public class GererLesAdherents extends Stage {
 			}
 		});
 
-		btnRetourner.setOnAction(e -> {			
+		btnRetourner.setOnAction(e -> {
 			retourABibliotheque(e);
 		});
 
@@ -166,7 +162,7 @@ public class GererLesAdherents extends Stage {
 
 		return vBox;
 	}
-	
+
 	private void retourABibliotheque(Event e) {
 		e.consume();
 

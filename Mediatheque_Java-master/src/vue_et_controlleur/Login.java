@@ -55,7 +55,7 @@ public class Login extends Application {
 	 * "src/modele/documents/";
 	 */
 
-	 public static Adherent adherentConnecte = null;
+	public static Adherent adherentConnecte = null;
 	private String strModele = "./modele/";
 
 	private Stage stage;
@@ -330,7 +330,7 @@ public class Login extends Application {
 				new BackgroundSize(scene.getWidth() + 10, scene.getHeight() + 10, false, false, false, false))));
 
 		// loginPrepose(false);
-		
+
 		textFieldPreposeNoUser.requestFocus();
 
 		primaryStage.setScene(scene);
@@ -695,7 +695,7 @@ public class Login extends Application {
 				loginAdherent(false);
 				gridPane.getChildren().clear();
 				loginPrepose(true);
-				
+
 				textFieldPreposeNoUser.requestFocus();
 			} else if (event.getSource() == rbAdherent) {
 				retourSansErreur();
@@ -706,7 +706,7 @@ public class Login extends Application {
 				loginPrepose(false);
 				gridPane.getChildren().clear();
 				loginAdherent(true);
-				
+
 				textFieldAdherentNoTel.requestFocus();
 			} else if (event.getSource() == rbConnexionTel) {
 				retourSansErreur();

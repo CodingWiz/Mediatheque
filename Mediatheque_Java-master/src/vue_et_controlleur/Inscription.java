@@ -212,7 +212,7 @@ public class Inscription extends Stage {
 					new BackgroundSize(scene.getWidth() + 10, scene.getHeight() + 10, false, false, false, false))));
 
 			// inscriptionPrepose(false);
-			
+
 			textFieldNom.requestFocus();
 
 			this.setScene(scene);
@@ -469,15 +469,15 @@ public class Inscription extends Stage {
 			if (event.getSource() == rbPrepose) {
 				inscriptionAdherent(false);
 				inscriptionPrepose(true);
-				
+
 				pwdFieldPreposePwd.clear();
 				pwdFieldPreposePwdConfirmation.clear();
-				
+
 				pwdFieldPreposePwd.requestFocus();
 			} else if (event.getSource() == rbAdherent) {
 				inscriptionPrepose(false);
 				inscriptionAdherent(true);
-				
+
 				pwdFieldPreposePwd.clear();
 				pwdFieldPreposePwdConfirmation.clear();
 			} else if (event.getSource() == btnInscription) {

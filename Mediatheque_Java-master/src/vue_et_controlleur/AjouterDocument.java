@@ -6,12 +6,12 @@ import javafx.event.Event;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -26,7 +26,7 @@ public class AjouterDocument extends Stage {
 			this.setOnCloseRequest(e -> {
 				retourABibliotheque(e);
 			});
-			
+
 			VBox root = createVbox();
 			Scene scene = new Scene(root, 400, 300);
 			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -71,7 +71,7 @@ public class AjouterDocument extends Stage {
 		Button btnPériodique = new Button("Périodique");
 		Button btnLivre = new Button("Livre");
 		Button btnRetour = new Button("Retour à la bibliothèque");
-		
+
 		btnDVD.setOnAction(e -> {
 			new FormulaireDVD().show();
 		});
@@ -83,8 +83,10 @@ public class AjouterDocument extends Stage {
 		btnPériodique.setOnAction(e -> {
 			new FormulairePériodique();
 		});
-		
-		btnRetour.setOnAction(e-> {retourABibliotheque(e);});
+
+		btnRetour.setOnAction(e -> {
+			retourABibliotheque(e);
+		});
 
 		vBox.getChildren().addAll(btnDVD, btnPériodique, btnLivre, btnRetour);
 
@@ -97,7 +99,7 @@ public class AjouterDocument extends Stage {
 		ButtonType btnTypeSave = new ButtonType("Retour à bibliothèque", ButtonBar.ButtonData.OK_DONE),
 				btnTypeAnnuler = new ButtonType("Rester", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-		Alert alert = new Alert(AlertType.CONFIRMATION, "Êtes-vous sûr de vouloir retourner à la bibliothèque ?", 
+		Alert alert = new Alert(AlertType.CONFIRMATION, "Êtes-vous sûr de vouloir retourner à la bibliothèque ?",
 				btnTypeSave, btnTypeAnnuler);
 
 		alert.setTitle("Confirmation");
@@ -109,7 +111,7 @@ public class AjouterDocument extends Stage {
 				 * TODO check qui est connecte
 				 */
 				this.close();
-				
+
 				new BibliothequePrepose().show();
 			}
 		});

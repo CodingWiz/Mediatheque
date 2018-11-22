@@ -15,12 +15,12 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -42,8 +42,10 @@ public class FormulaireLivre extends Stage {
 
 	public FormulaireLivre() {
 		try {
-			this.setOnCloseRequest(e->{annuler(e);});
-			
+			this.setOnCloseRequest(e -> {
+				annuler(e);
+			});
+
 			VBox root = createVbox();
 			Scene scene = new Scene(root, 400, 400);
 			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -102,7 +104,9 @@ public class FormulaireLivre extends Stage {
 		btnConfirmer.setFont(new Font(20));
 		btnAnnuler.setFont(new Font(20));
 
-		btnAnnuler.setOnAction(e -> {annuler(e);});
+		btnAnnuler.setOnAction(e -> {
+			annuler(e);
+		});
 
 		btnConfirmer.setOnAction(e -> {
 			if (dpDatePublication.getValue() == null || txtMotsCles.getText().equals("")
@@ -209,7 +213,7 @@ public class FormulaireLivre extends Stage {
 
 	private void annuler(Event event) {
 		event.consume();
-		
+
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Confirmation");
 		alert.setHeaderText("Confirmation");
@@ -217,7 +221,7 @@ public class FormulaireLivre extends Stage {
 		alert.showAndWait().ifPresent(response -> {
 			if (response == ButtonType.OK) {
 				this.close();
-				//new BibliothequePrepose().show();
+				// new BibliothequePrepose().show();
 			}
 		});
 	}

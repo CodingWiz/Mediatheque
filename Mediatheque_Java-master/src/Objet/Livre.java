@@ -2,7 +2,7 @@ package Objet;
 
 import java.io.Serializable;
 
-public class Livre extends Document implements Serializable{
+public class Livre extends Document implements Serializable {
 	/**
 	 * 
 	 */
@@ -16,6 +16,6 @@ public class Livre extends Document implements Serializable{
 
 	public String getAuteur() {
 		return auteur;
-	} 
+	}
 
 }
