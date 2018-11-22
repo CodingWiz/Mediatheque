@@ -10,6 +10,7 @@ import Objet.Document;
 import Objet.ListDocument;
 import Objet.ListePeriodique;
 import Objet.Periodique;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -43,6 +44,8 @@ public class FormulairePériodique extends Stage {
 
 	public FormulairePériodique() {
 		try {
+			this.setOnCloseRequest(e->{annuler(e);});
+			
 			VBox root = createVbox();
 			Scene scene = new Scene(root, 400, 400);
 			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -85,18 +88,7 @@ public class FormulairePériodique extends Stage {
 		btnConfirmer.setFont(new Font(20));
 		btnAnnuler.setFont(new Font(20));
 
-		btnAnnuler.setOnAction(e -> {
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Confirmation");
-			alert.setHeaderText("Confirmation");
-			alert.setContentText("Êtes vous sur de vouloir vous annuler l'ajout ?");
-			alert.showAndWait().ifPresent(response -> {
-				if (response == ButtonType.OK) {
-					this.close();
-					new BibliothequePrepose().show();
-				}
-			});
-		});
+		btnAnnuler.setOnAction(e -> {annuler(e);});
 
 		btnConfirmer.setOnAction(e -> {
 			if (dpDatePublication.getValue() == null || txtNoPeriodique.getText().equals("")
@@ -236,4 +228,18 @@ public class FormulairePériodique extends Stage {
 		}
 	}
 
+	private void annuler(Event event) {
+		event.consume();
+		
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirmation");
+		alert.setHeaderText("Confirmation");
+		alert.setContentText("Êtes vous sur de vouloir vous annuler l'ajout ?");
+		alert.showAndWait().ifPresent(response -> {
+			if (response == ButtonType.OK) {
+				this.close();
+				//new BibliothequePrepose().show();
+			}
+		});
+	}
 }

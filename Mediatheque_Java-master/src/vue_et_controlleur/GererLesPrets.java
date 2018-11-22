@@ -8,6 +8,7 @@ import Objet.ListePret;
 import Objet.Pret;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -40,29 +41,8 @@ public class GererLesPrets extends Stage {
 	ListView<Pret> lstviewPret = new ListView<>(pret);
 
 	public GererLesPrets() {
-		this.setOnCloseRequest(e -> {
-			e.consume();
-
-			ButtonType btnTypeSave = new ButtonType("Retour à bibliothèque", ButtonBar.ButtonData.OK_DONE),
-					btnTypeAnnuler = new ButtonType("Rester", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-			Alert alert = new Alert(AlertType.CONFIRMATION, "Êtes-vous sûr de vouloir retourner à la bibliothèque ?",
-					btnTypeSave, btnTypeAnnuler);
-
-			alert.setTitle("Confirmation");
-			alert.setHeaderText("Confirmation");
-
-			alert.showAndWait().ifPresent(response -> {
-				if (response == btnTypeSave) {
-					/*
-					 * TODO check qui est connecte
-					 */
-					this.close();
-
-					new BibliothequePrepose().show();
-				}
-			});
-		});
+		this.setOnCloseRequest(e -> {retourABibliotheque(e);});
+		
 		try {
 			HBox root = createHBox();
 			Scene scene = new Scene(root, 960, 435);
@@ -102,13 +82,13 @@ public class GererLesPrets extends Stage {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Erreur");
 				alert.setHeaderText("Erreur");
-				alert.setContentText("Veuillez selectionner le prêt de la liste que vous voudriez retourner");
+				alert.setContentText("Veuillez séléctionner le prêt de la liste que vous voudriez retourner");
 				alert.showAndWait();
 			}
 			Alert alert = new Alert(AlertType.CONFIRMATION);
 			alert.setTitle("Confirmation");
 			alert.setHeaderText("Confirmation");
-			alert.setContentText("Êtes vous sur de vouloir vous retourner ce prêt ?");
+			alert.setContentText("Êtes-vous sûr de vouloir vous retourner ce prêt ?");
 			alert.showAndWait().ifPresent(response -> {
 				if (response == ButtonType.OK) {
 					Pret Pret = tablePret.getSelectionModel().getSelectedItem();
@@ -154,8 +134,7 @@ public class GererLesPrets extends Stage {
 		 */
 
 		btnRetour.setOnAction(e -> {
-			this.close();
-			new BibliothequePrepose().show();
+			retourABibliotheque(e);
 		});
 
 		vBox.getChildren().addAll(createVboxImage(), btnFaireRetour, btnRetour);
@@ -207,5 +186,29 @@ public class GererLesPrets extends Stage {
 		vBox.getChildren().addAll(tablePret);
 
 		return vBox;
+	}
+	
+	private void retourABibliotheque(Event e) {
+		e.consume();
+
+		ButtonType btnTypeSave = new ButtonType("Retour à bibliothèque", ButtonBar.ButtonData.OK_DONE),
+				btnTypeAnnuler = new ButtonType("Rester", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+		Alert alert = new Alert(AlertType.CONFIRMATION, "Êtes-vous sûr de vouloir retourner à la bibliothèque ?",
+				btnTypeSave, btnTypeAnnuler);
+
+		alert.setTitle("Confirmation");
+		alert.setHeaderText("Confirmation");
+
+		alert.showAndWait().ifPresent(response -> {
+			if (response == btnTypeSave) {
+				/*
+				 * TODO check qui est connecte
+				 */
+				this.close();
+
+				new BibliothequePrepose().show();
+			}
+		});
 	}
 }

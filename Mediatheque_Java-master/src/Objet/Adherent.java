@@ -13,7 +13,7 @@ public class Adherent extends Personne {
 	}
 
 	public String toString() {
-		return this.getStrNom() + ", " + this.getStrPrenom();
+		return ("Adherent - No. tel : " + this.getStrTelephone() + ", nom : " + this.getStrNom() + ", prenom : " + this.getStrPrenom() + "\n");
 	}
 
 }

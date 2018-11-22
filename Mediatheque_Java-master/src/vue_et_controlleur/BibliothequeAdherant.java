@@ -12,11 +12,13 @@ import Objet.ListeLivre;
 import Objet.ListePeriodique;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -62,11 +64,13 @@ public class BibliothequeAdherant extends Stage {
 
 	public BibliothequeAdherant() {
 		try {
+			this.setOnCloseRequest(e-> {deconnexion(e);});
+			
 			HBox root = createHBox();
 			Scene scene = new Scene(root, 890, 435);
 			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			this.setScene(scene);
-			this.setTitle("Bibliotheque");
+			this.setTitle("Bibliothèque adhérent");
 			this.sizeToScene();
 			this.show();
 		} catch (Exception e) {
@@ -343,5 +347,42 @@ public class BibliothequeAdherant extends Stage {
 
 		return vBox;
 	}
+	
+	private void deconnexion(Event event) {
+		event.consume();
 
+		/*
+		 * Alert alert = new Alert(AlertType.CONFIRMATION);
+		 * alert.setTitle("Confirmation"); alert.setHeaderText("Confirmation");
+		 * alert.setContentText("Êtes vous sur de vouloir vous déconnecter ?");
+		 * alert.showAndWait().ifPresent(response -> { if (response == ButtonType.OK) {
+		 * this.close(); Login login = new Login(); try { login.booPremiereFois = false;
+		 * login.start(new Stage()); } catch (Exception e1) { // TODO Auto-generated
+		 * catch block e1.printStackTrace(); } } });
+		 */
+
+		ButtonType btnTypeSave = new ButtonType("Déconnexion", ButtonBar.ButtonData.OK_DONE),
+				btnTypeAnnuler = new ButtonType("Rester", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+		Alert alert = new Alert(AlertType.CONFIRMATION, "Êtes-vous sûr de vouloir vous déconnecter ?", btnTypeSave,
+				btnTypeAnnuler);
+
+		alert.setTitle("Confirmation");
+		alert.setHeaderText("Confirmation");
+
+		alert.showAndWait().ifPresent(response -> {
+			if (response == btnTypeSave) {
+				this.close();
+
+				Login login = new Login();
+				try {
+					login.booPremiereFois = false;
+					login.start(new Stage());
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+	}
 }

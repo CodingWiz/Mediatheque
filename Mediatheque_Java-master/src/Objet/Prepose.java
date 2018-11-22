@@ -36,7 +36,7 @@ private String strPassword;
 
 	@Override
 	public String toString() {
-		return "No Prepose : " + strNoPrepose + "\nPassword :" + strPassword;
+		return "Prepose - No. Prepose : " + strNoPrepose + ", password : " + strPassword + "\n";
 	}
 
 }

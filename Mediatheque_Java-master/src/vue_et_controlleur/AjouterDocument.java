@@ -24,7 +24,7 @@ public class AjouterDocument extends Stage {
 	public AjouterDocument() {
 		try {
 			this.setOnCloseRequest(e -> {
-				retourABibliotheque(this, e);
+				retourABibliotheque(e);
 			});
 			
 			VBox root = createVbox();
@@ -70,6 +70,8 @@ public class AjouterDocument extends Stage {
 		Button btnDVD = new Button("DVD");
 		Button btnPériodique = new Button("Périodique");
 		Button btnLivre = new Button("Livre");
+		Button btnRetour = new Button("Retour à la bibliothèque");
+		
 		btnDVD.setOnAction(e -> {
 			new FormulaireDVD().show();
 		});
@@ -81,13 +83,15 @@ public class AjouterDocument extends Stage {
 		btnPériodique.setOnAction(e -> {
 			new FormulairePériodique();
 		});
+		
+		btnRetour.setOnAction(e-> {retourABibliotheque(e);});
 
-		vBox.getChildren().addAll(btnDVD, btnPériodique, btnLivre);
+		vBox.getChildren().addAll(btnDVD, btnPériodique, btnLivre, btnRetour);
 
 		return vBox;
 	}
 
-	private void retourABibliotheque(Stage stage, Event event) {
+	private void retourABibliotheque(Event event) {
 		event.consume();
 
 		ButtonType btnTypeSave = new ButtonType("Retour à bibliothèque", ButtonBar.ButtonData.OK_DONE),
@@ -104,7 +108,7 @@ public class AjouterDocument extends Stage {
 				/*
 				 * TODO check qui est connecte
 				 */
-				stage.close();
+				this.close();
 				
 				new BibliothequePrepose().show();
 			}

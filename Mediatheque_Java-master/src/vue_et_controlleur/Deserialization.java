@@ -271,6 +271,7 @@ public class Deserialization {
 		try {
 			while ((adherant = (Adherent) is.readObject()) != null) {
 				ListeAdherant.ajouterAdherant(adherant);
+				System.out.println(adherant);
 			}
 		} catch (IOException e) {
 		} catch (ClassNotFoundException e) {

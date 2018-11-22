@@ -73,7 +73,7 @@ public class BibliothequePrepose extends Stage {
 			Scene scene = new Scene(root, 890, 435);
 			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			this.setScene(scene);
-			this.setTitle("Bibliotheque");
+			this.setTitle("Bibliothèque préposé");
 			this.sizeToScene();
 			listView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 			this.show();
@@ -280,6 +280,8 @@ public class BibliothequePrepose extends Stage {
 
 		Button btnGererAdherant = new Button("Gérer les adhérants");
 		btnGererAdherant.setOnAction(e -> {
+			this.close();
+			
 			new GererLesAdherents().show();
 		});
 		Button btnDeconnexion = new Button("Déconnexion");

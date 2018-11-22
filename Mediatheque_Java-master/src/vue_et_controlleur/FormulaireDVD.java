@@ -7,6 +7,7 @@ import Objet.DVD;
 import Objet.Document;
 import Objet.ListDocument;
 import Objet.ListeDVD;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -39,6 +40,8 @@ public class FormulaireDVD extends Stage {
 
 	public FormulaireDVD() {
 		try {
+			this.setOnCloseRequest(e->{annuler(e);});
+			
 			VBox root = createVbox();
 			Scene scene = new Scene(root, 400, 450);
 			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -80,19 +83,7 @@ public class FormulaireDVD extends Stage {
 		btnConfirmer.setFont(new Font(20));
 		btnAnnuler.setFont(new Font(20));
 
-		btnAnnuler.setOnAction(e -> {
-			Alert alert = new Alert(AlertType.CONFIRMATION);
-			alert.setTitle("Confirmation");
-			alert.setHeaderText("Confirmation");
-			alert.setContentText("Êtes vous sur de vouloir vous annuler l'ajout ?");
-			alert.showAndWait().ifPresent(response -> {
-				if (response == ButtonType.OK) {
-					this.close();
-					new BibliothequePrepose().show();
-				}
-			});
-
-		});
+		btnAnnuler.setOnAction(e -> {annuler(e);});
 
 		btnConfirmer.setOnAction(e -> {
 			if (dtDatePublication.getValue() == null || txtMotsCles.getText().equals("")
@@ -242,4 +233,18 @@ public class FormulaireDVD extends Stage {
 		return hBox;
 	}
 
+	private void annuler(Event event) {
+		event.consume();
+		
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirmation");
+		alert.setHeaderText("Confirmation");
+		alert.setContentText("Êtes vous sur de vouloir vous annuler l'ajout ?");
+		alert.showAndWait().ifPresent(response -> {
+			if (response == ButtonType.OK) {
+				this.close();
+				//new BibliothequePrepose().show();
+			}
+		});
+	}
 }
