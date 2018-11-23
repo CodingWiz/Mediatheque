@@ -45,7 +45,7 @@ public class GererLesAdherents extends Stage {
 			Scene scene = new Scene(root, 960, 435);
 			// scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			this.setScene(scene);
-			this.setTitle("Gérer Les adhérents");
+			this.setTitle("GÃ©rer Les adhÃ©rents");
 			this.sizeToScene();
 			this.show();
 		} catch (Exception e) {
@@ -72,27 +72,27 @@ public class GererLesAdherents extends Stage {
 		vBox.setMaxWidth(300);
 		vBox.setAlignment(Pos.CENTER);
 		
-		Button btnAjouterAdherent = new Button("Ajouter un adhérent");
+		Button btnAjouterAdherent = new Button("Ajouter un adhÃ©rent");
 		btnAjouterAdherent.setOnAction(e-> {
 			this.close();
 			new Inscription(false, false).show();
 		});
 
-		// Button btnAjouterAdherent = new Button(" Ajouter Adhérent");
-		Button btnSupprimerAdherent = new Button("Supprimer l'adhérent");
+		// Button btnAjouterAdherent = new Button(" Ajouter AdhÃ©rent");
+		Button btnSupprimerAdherent = new Button("Supprimer l'adhÃ©rent");
 		btnSupprimerAdherent.setOnAction(e -> {
 			Adherent adherent = tableAdherent.getSelectionModel().getSelectedItem();
 			if (tableAdherent.getSelectionModel().getSelectedItem() == null) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Erreur");
 				alert.setHeaderText("");
-				alert.setContentText("Veuillez sélectionner l'adhérent que vous aimeriez supprimer");
+				alert.setContentText("Veuillez sÃ©lectionner l'adhÃ©rent que vous aimeriez supprimer");
 				alert.showAndWait();
 			} else {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
 				alert.setTitle("Confirmation");
 				alert.setHeaderText("Confirmation");
-				alert.setContentText("Êtes vous sur de vouloir supprimer " + adherent.getStrNom() + ", "
+				alert.setContentText("ÃŠtes vous sur de vouloir supprimer " + adherent.getStrNom() + ", "
 						+ adherent.getStrPrenom() + "?");
 				alert.showAndWait().ifPresent(response -> {
 					if (response == ButtonType.OK) {
@@ -101,7 +101,7 @@ public class GererLesAdherents extends Stage {
 						alertInfo.setTitle("Succes");
 						alertInfo.setHeaderText("");
 						alertInfo.setContentText("L'adherent " + adherent.getStrNom() + ", " + adherent.getStrPrenom()
-								+ " a été supprimé");
+								+ " a Ã©tÃ© supprimÃ©");
 						alertInfo.showAndWait().ifPresent(ok -> {
 							this.close();
 							
@@ -112,15 +112,15 @@ public class GererLesAdherents extends Stage {
 
 			}
 		});
-		Button btnRetourner = new Button("Retour à la bibliothèque");
-		Button btnInfoDetaille = new Button("Information détaillées");
+		Button btnRetourner = new Button("Retour Ã  la bibliothÃ¨que");
+		Button btnInfoDetaille = new Button("Information dÃ©taillÃ©es");
 		btnInfoDetaille.setOnAction(e -> {
 			if (tableAdherent.getSelectionModel().getSelectedItem() == null) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Erreur");
 				alert.setHeaderText("");
 				alert.setContentText(
-						"Veuillez sélectionner l'adhérent pour qui vous aimeriez voir les informations détaillées");
+						"Veuillez sÃ©lectionner l'adhÃ©rent pour qui vous aimeriez voir les informations dÃ©taillÃ©es");
 				alert.showAndWait();
 			} else {
 				adherentSelectionne = tableAdherent.getSelectionModel().getSelectedItem();
@@ -132,12 +132,12 @@ public class GererLesAdherents extends Stage {
 			retourABibliotheque(e);
 		});
 		
-		Button btnModifierAdherent = new Button("Modifier l'adhérent");
+		/*Button btnModifierAdherent = new Button("Modifier l'adhÃ©rent");
 		btnModifierAdherent.setOnAction(e->{
 			
-		});
+		});*/
 
-		vBox.getChildren().addAll(createVboxImage(), btnInfoDetaille, btnAjouterAdherent, btnModifierAdherent, btnSupprimerAdherent, btnRetourner);
+		vBox.getChildren().addAll(createVboxImage(), btnInfoDetaille, btnAjouterAdherent, btnSupprimerAdherent, btnRetourner);
 
 		return vBox;
 	}
@@ -145,7 +145,7 @@ public class GererLesAdherents extends Stage {
 	private VBox createVboxImage() {
 		VBox vBox = new VBox();
 		vBox.setAlignment(Pos.CENTER);
-		Image bibliotheque = new Image("adhérent.png");
+		Image bibliotheque = new Image("adhÃ©rent.png");
 		vBox.setBorder(new Border(
 				new BorderStroke(Color.LIGHTGRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 		vBox.getChildren().add(new ImageView(bibliotheque));
@@ -162,14 +162,14 @@ public class GererLesAdherents extends Stage {
 		TableColumn<Adherent, String> colonneNom = new TableColumn<Adherent, String>("Nom");
 		TableColumn<Adherent, String> colonnePrenom = new TableColumn<Adherent, String>("Prenom");
 		TableColumn<Adherent, String> colonneAdresse = new TableColumn<Adherent, String>("Adresse");
-		TableColumn<Adherent, Integer> colonneNoTélephone = new TableColumn<Adherent, Integer>("Numéro du télephone");
+		TableColumn<Adherent, Integer> colonneNoTÃ©lephone = new TableColumn<Adherent, Integer>("NumÃ©ro du tÃ©lephone");
 
-		tableAdherent.getColumns().addAll(colonneNom, colonnePrenom, colonneAdresse, colonneNoTélephone);
+		tableAdherent.getColumns().addAll(colonneNom, colonnePrenom, colonneAdresse, colonneNoTÃ©lephone);
 
 		colonneNom.setCellValueFactory(new PropertyValueFactory<>("strNom"));
 		colonnePrenom.setCellValueFactory(new PropertyValueFactory<>("strPrenom"));
 		colonneAdresse.setCellValueFactory(new PropertyValueFactory<>("strAdresse"));
-		colonneNoTélephone.setCellValueFactory(new PropertyValueFactory<>("strTelephone"));
+		colonneNoTÃ©lephone.setCellValueFactory(new PropertyValueFactory<>("strTelephone"));
 		tableAdherent.autosize();
 		tableAdherent.setItems(adherent);
 
@@ -181,10 +181,10 @@ public class GererLesAdherents extends Stage {
 	private void retourABibliotheque(Event e) {
 		e.consume();
 
-		ButtonType btnTypeSave = new ButtonType("Retour à bibliothèque", ButtonBar.ButtonData.OK_DONE),
+		ButtonType btnTypeSave = new ButtonType("Retour Ã  bibliothÃ¨que", ButtonBar.ButtonData.OK_DONE),
 				btnTypeAnnuler = new ButtonType("Rester", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-		Alert alert = new Alert(AlertType.CONFIRMATION, "Êtes-vous sûr de vouloir retourner à la bibliothèque ?",
+		Alert alert = new Alert(AlertType.CONFIRMATION, "ÃŠtes-vous sÃ»r de vouloir retourner Ã  la bibliothÃ¨que ?",
 				btnTypeSave, btnTypeAnnuler);
 
 		alert.setTitle("Confirmation");
