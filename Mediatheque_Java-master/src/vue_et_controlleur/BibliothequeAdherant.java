@@ -434,7 +434,7 @@ public class BibliothequeAdherant extends Stage {
 					else if (tabPane.getSelectionModel().getSelectedItem() == tabPeriodique) {
 						tablePeriodique.getColumns().clear();
 						
-						documents = FXCollections.observableArrayList(ListePeriodique.getLstPeriodiqueATrouver());
+						periodique = FXCollections.observableArrayList(ListePeriodique.getLstPeriodiqueATrouver());
 						
 						tabPeriodique.setContent(null);
 						tabPeriodique.setContent(createTablePeriodiqueVBox());
@@ -442,7 +442,7 @@ public class BibliothequeAdherant extends Stage {
 					else if (tabPane.getSelectionModel().getSelectedItem() == tabLivre) {
 						tableLivre.getColumns().clear();
 						
-						documents = FXCollections.observableArrayList(ListeLivre.getLstLivreATrouver());
+						livre = FXCollections.observableArrayList(ListeLivre.getLstLivreATrouver());
 						
 						tabLivre.setContent(null);
 						tabLivre.setContent(createTableLivreVBox());
@@ -450,7 +450,7 @@ public class BibliothequeAdherant extends Stage {
 					else if (tabPane.getSelectionModel().getSelectedItem() == tabDVD) {
 						tableDVD.getColumns().clear();
 						
-						documents = FXCollections.observableArrayList(ListeDVD.getLstDVDATrouver());
+						DVD = FXCollections.observableArrayList(ListeDVD.getLstDVDATrouver());
 						
 						tabDVD.setContent(null);
 						tabDVD.setContent(createTableDVDVBox());
@@ -474,13 +474,13 @@ public class BibliothequeAdherant extends Stage {
 					else if (tabPane.getSelectionModel().getSelectedItem() == tabPeriodique) {
 						tablePeriodique.getColumns().clear();
 						
-						ArrayList<Document> arrDoc = new ArrayList<>();
+						ArrayList<Periodique> arrDoc = new ArrayList<>();
 						for (int i = 0; i < ListePeriodique.getLstPeriodiqueATrouver().size(); i++) {
 							if (ListePeriodique.getLstPeriodiqueATrouver().get(i).getEtat().equals("Emprunté")) {
 								arrDoc.add(ListePeriodique.getLstPeriodiqueATrouver().get(i));
 							}
 						}
-						documents = FXCollections.observableArrayList(arrDoc);
+						periodique = FXCollections.observableArrayList(arrDoc);
 						
 						tabPeriodique.setContent(null);
 						tabPeriodique.setContent(createTablePeriodiqueVBox());
@@ -488,13 +488,13 @@ public class BibliothequeAdherant extends Stage {
 					else if (tabPane.getSelectionModel().getSelectedItem() == tabLivre) {
 						tableLivre.getColumns().clear();
 						
-						ArrayList<Document> arrDoc = new ArrayList<>();
+						ArrayList<Livre> arrDoc = new ArrayList<>();
 						for (int i = 0; i < ListeLivre.getLstLivreATrouver().size(); i++) {
 							if (ListeLivre.getLstLivreATrouver().get(i).getEtat().equals("Emprunté")) {
 								arrDoc.add(ListeLivre.getLstLivreATrouver().get(i));
 							}
 						}
-						documents = FXCollections.observableArrayList(arrDoc);
+						livre = FXCollections.observableArrayList(arrDoc);
 						
 						tabLivre.setContent(null);
 						tabLivre.setContent(createTableLivreVBox());
@@ -502,19 +502,23 @@ public class BibliothequeAdherant extends Stage {
 					else if (tabPane.getSelectionModel().getSelectedItem() == tabDVD) {
 						tableDVD.getColumns().clear();
 						
-						ArrayList<Document> arrDoc = new ArrayList<>();
+						ArrayList<DVD> arrDoc = new ArrayList<>();
 						for (int i = 0; i < ListeDVD.getLstDVDATrouver().size(); i++) {
 							if (ListeDVD.getLstDVDATrouver().get(i).getEtat().equals("Emprunté")) {
 								arrDoc.add(ListeDVD.getLstDVDATrouver().get(i));
 							}
 						}
-						documents = FXCollections.observableArrayList(arrDoc);
+						DVD = FXCollections.observableArrayList(arrDoc);
 						
 						tabDVD.setContent(null);
 						tabDVD.setContent(createTableDVDVBox());
 					}
 				}
 				else if (comboBox.getValue().equals("Disponible")) {
+					if (tabPane.getSelectionModel().getSelectedItem() == tabDVD) {
+						System.out.println("DVD");	
+					}
+					
 					if (tabPane.getSelectionModel().getSelectedItem() == tabDocument) {
 						tableDocument.getColumns().clear();
 						
@@ -532,13 +536,13 @@ public class BibliothequeAdherant extends Stage {
 					else if (tabPane.getSelectionModel().getSelectedItem() == tabPeriodique) {
 						tablePeriodique.getColumns().clear();
 						
-						ArrayList<Document> arrDoc = new ArrayList<>();
+						ArrayList<Periodique> arrDoc = new ArrayList<>();
 						for (int i = 0; i < ListePeriodique.getLstPeriodiqueATrouver().size(); i++) {
 							if (ListePeriodique.getLstPeriodiqueATrouver().get(i).getEtat().equals("Disponible")) {
 								arrDoc.add(ListePeriodique.getLstPeriodiqueATrouver().get(i));
 							}
 						}
-						documents = FXCollections.observableArrayList(arrDoc);
+						periodique = FXCollections.observableArrayList(arrDoc);
 						
 						tabPeriodique.setContent(null);
 						tabPeriodique.setContent(createTablePeriodiqueVBox());
@@ -546,13 +550,13 @@ public class BibliothequeAdherant extends Stage {
 					else if (tabPane.getSelectionModel().getSelectedItem() == tabLivre) {
 						tableLivre.getColumns().clear();
 						
-						ArrayList<Document> arrDoc = new ArrayList<>();
+						ArrayList<Livre> arrDoc = new ArrayList<>();
 						for (int i = 0; i < ListeLivre.getLstLivreATrouver().size(); i++) {
 							if (ListeLivre.getLstLivreATrouver().get(i).getEtat().equals("Disponible")) {
 								arrDoc.add(ListeLivre.getLstLivreATrouver().get(i));
 							}
 						}
-						documents = FXCollections.observableArrayList(arrDoc);
+						livre = FXCollections.observableArrayList(arrDoc);
 						
 						tabLivre.setContent(null);
 						tabLivre.setContent(createTableLivreVBox());
@@ -560,13 +564,13 @@ public class BibliothequeAdherant extends Stage {
 					else if (tabPane.getSelectionModel().getSelectedItem() == tabDVD) {
 						tableDVD.getColumns().clear();
 						
-						ArrayList<Document> arrDoc = new ArrayList<>();
+						ArrayList<DVD> arrDoc = new ArrayList<>();
 						for (int i = 0; i < ListeDVD.getLstDVDATrouver().size(); i++) {
 							if (ListeDVD.getLstDVDATrouver().get(i).getEtat().equals("Disponible")) {
 								arrDoc.add(ListeDVD.getLstDVDATrouver().get(i));
 							}
 						}
-						documents = null;
+						DVD = FXCollections.observableArrayList(arrDoc);
 						
 						tabDVD.setContent(null);
 						tabDVD.setContent(createTableDVDVBox());
