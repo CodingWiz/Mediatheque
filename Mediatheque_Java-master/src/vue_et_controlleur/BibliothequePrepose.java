@@ -2,6 +2,8 @@ package vue_et_controlleur;
 
 import java.util.ArrayList;
 
+import javax.swing.JSpinner.ListEditor;
+
 import Objet.DVD;
 import Objet.Document;
 import Objet.ListDocument;
@@ -14,7 +16,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -62,6 +66,9 @@ public class BibliothequePrepose extends Stage {
 	private ObservableList<Livre> livre = FXCollections.observableArrayList(ListeLivre.getLstLivreATrouver());
 	private TableView<DVD> tableDVD = new TableView<DVD>();
 	private ObservableList<DVD> DVD = FXCollections.observableArrayList(ListeDVD.getLstDVDATrouver());
+	
+	private TabPane tabPane;
+	private Tab tabDocument, tabPeriodique, tabLivre, tabDVD;
 
 	TextField txtMotscles = new TextField();
 
@@ -99,20 +106,25 @@ public class BibliothequePrepose extends Stage {
 		HBox hBox = new HBox();
 		hBox.setPadding(new Insets(5));
 		hBox.setSpacing(5);
-		TabPane tabPane = new TabPane();
-		Tab tabDocument = new Tab();
+		
+		tabPane = new TabPane();
+		
+		tabDocument = new Tab();
 		tabDocument.setGraphic(imTous);
 		tabDocument.setClosable(false);
 		tabDocument.setContent(createTableDocumentVBox());
-		Tab tabPeriodique = new Tab();
+		
+		tabPeriodique = new Tab();
 		tabPeriodique.setGraphic(imPeriodique);
 		tabPeriodique.setClosable(false);
 		tabPeriodique.setContent(createTablePeriodiqueVBox());
-		Tab tabLivre = new Tab();
+		
+		tabLivre = new Tab();
 		tabLivre.setGraphic(imlivres);
 		tabLivre.setClosable(false);
 		tabLivre.setContent(createTableLivreVBox());
-		Tab tabDVD = new Tab();
+		
+		tabDVD = new Tab();
 		tabDVD.setGraphic(imDVD);
 		tabDVD.setClosable(false);
 		tabDVD.setContent(createTableDVDVBox());
@@ -131,6 +143,8 @@ public class BibliothequePrepose extends Stage {
 		        	
 		        	txtMotscles.clear();
 		    		comboBox.setValue("Tous");
+		    		
+		    		
 		        }
 		    }
 		);
@@ -149,6 +163,7 @@ public class BibliothequePrepose extends Stage {
 		ObservableList<String> options = FXCollections.observableArrayList("Tous", "Prêt", "Disponible");
 		comboBox = new ComboBox<String>(options);
 		comboBox.setValue("Tous");
+		comboBox.setOnAction(new GestionComboBox());
 
 		Button btnEffacerFiltres = new Button("Éffacer les filtres");
 
@@ -520,5 +535,165 @@ public class BibliothequePrepose extends Stage {
 				}
 			}
 		});
+	}
+	
+	private class GestionComboBox implements EventHandler<ActionEvent> {
+
+		@Override
+		public void handle(ActionEvent event) {
+			// TODO Auto-generated method stub
+			if (event.getSource() == comboBox) {
+				if (comboBox.getValue().equals("Tous")) {																				
+					if (tabPane.getSelectionModel().getSelectedItem() == tabDocument) {
+						tableDocument.getColumns().clear();
+						
+						documents = FXCollections.observableArrayList(ListDocument.getLstAllDocument());
+						
+						tabDocument.setContent(null);
+						tabDocument.setContent(createTableDocumentVBox());
+					}
+					else if (tabPane.getSelectionModel().getSelectedItem() == tabPeriodique) {
+						tablePeriodique.getColumns().clear();
+						
+						documents = FXCollections.observableArrayList(ListePeriodique.getLstPeriodiqueATrouver());
+						
+						tabPeriodique.setContent(null);
+						tabPeriodique.setContent(createTablePeriodiqueVBox());
+					}
+					else if (tabPane.getSelectionModel().getSelectedItem() == tabLivre) {
+						tableLivre.getColumns().clear();
+						
+						documents = FXCollections.observableArrayList(ListeLivre.getLstLivreATrouver());
+						
+						tabLivre.setContent(null);
+						tabLivre.setContent(createTableLivreVBox());
+					}
+					else if (tabPane.getSelectionModel().getSelectedItem() == tabDVD) {
+						tableDVD.getColumns().clear();
+						
+						documents = FXCollections.observableArrayList(ListeDVD.getLstDVDATrouver());
+						
+						tabDVD.setContent(null);
+						tabDVD.setContent(createTableDVDVBox());
+					}
+				}
+				else if (comboBox.getValue().equals("Prêt")) {					
+					if (tabPane.getSelectionModel().getSelectedItem() == tabDocument) {
+						tableDocument.getColumns().clear();
+						
+						ArrayList<Document> arrDoc = new ArrayList<>();
+						for (int i = 0; i < ListDocument.getLstAllDocument().size(); i++) {
+							if (ListDocument.getLstAllDocument().get(i).getEtat().equals("Emprunté")) {
+								arrDoc.add(ListDocument.getLstAllDocument().get(i));
+							}
+						}
+						documents = FXCollections.observableArrayList(arrDoc);
+						
+						tabDocument.setContent(null);
+						tabDocument.setContent(createTableDocumentVBox());
+					}
+					else if (tabPane.getSelectionModel().getSelectedItem() == tabPeriodique) {
+						tablePeriodique.getColumns().clear();
+						
+						ArrayList<Document> arrDoc = new ArrayList<>();
+						for (int i = 0; i < ListePeriodique.getLstPeriodiqueATrouver().size(); i++) {
+							if (ListePeriodique.getLstPeriodiqueATrouver().get(i).getEtat().equals("Emprunté")) {
+								arrDoc.add(ListePeriodique.getLstPeriodiqueATrouver().get(i));
+							}
+						}
+						documents = FXCollections.observableArrayList(arrDoc);
+						
+						tabPeriodique.setContent(null);
+						tabPeriodique.setContent(createTablePeriodiqueVBox());
+					}
+					else if (tabPane.getSelectionModel().getSelectedItem() == tabLivre) {
+						tableLivre.getColumns().clear();
+						
+						ArrayList<Document> arrDoc = new ArrayList<>();
+						for (int i = 0; i < ListeLivre.getLstLivreATrouver().size(); i++) {
+							if (ListeLivre.getLstLivreATrouver().get(i).getEtat().equals("Emprunté")) {
+								arrDoc.add(ListeLivre.getLstLivreATrouver().get(i));
+							}
+						}
+						documents = FXCollections.observableArrayList(arrDoc);
+						
+						tabLivre.setContent(null);
+						tabLivre.setContent(createTableLivreVBox());
+					}
+					else if (tabPane.getSelectionModel().getSelectedItem() == tabDVD) {
+						tableDVD.getColumns().clear();
+						
+						ArrayList<Document> arrDoc = new ArrayList<>();
+						for (int i = 0; i < ListeDVD.getLstDVDATrouver().size(); i++) {
+							if (ListeDVD.getLstDVDATrouver().get(i).getEtat().equals("Emprunté")) {
+								arrDoc.add(ListeDVD.getLstDVDATrouver().get(i));
+							}
+						}
+						documents = FXCollections.observableArrayList(arrDoc);
+						
+						tabDVD.setContent(null);
+						tabDVD.setContent(createTableDVDVBox());
+					}
+				}
+				else if (comboBox.getValue().equals("Disponible")) {
+					if (tabPane.getSelectionModel().getSelectedItem() == tabDocument) {
+						tableDocument.getColumns().clear();
+						
+						ArrayList<Document> arrDoc = new ArrayList<>();
+						for (int i = 0; i < ListDocument.getLstAllDocument().size(); i++) {
+							if (ListDocument.getLstAllDocument().get(i).getEtat().equals("Disponible")) {
+								arrDoc.add(ListDocument.getLstAllDocument().get(i));
+							}
+						}
+						documents = FXCollections.observableArrayList(arrDoc);
+						
+						tabDocument.setContent(null);
+						tabDocument.setContent(createTableDocumentVBox());
+					}
+					else if (tabPane.getSelectionModel().getSelectedItem() == tabPeriodique) {
+						tablePeriodique.getColumns().clear();
+						
+						ArrayList<Document> arrDoc = new ArrayList<>();
+						for (int i = 0; i < ListePeriodique.getLstPeriodiqueATrouver().size(); i++) {
+							if (ListePeriodique.getLstPeriodiqueATrouver().get(i).getEtat().equals("Disponible")) {
+								arrDoc.add(ListePeriodique.getLstPeriodiqueATrouver().get(i));
+							}
+						}
+						documents = FXCollections.observableArrayList(arrDoc);
+						
+						tabPeriodique.setContent(null);
+						tabPeriodique.setContent(createTablePeriodiqueVBox());
+					}
+					else if (tabPane.getSelectionModel().getSelectedItem() == tabLivre) {
+						tableLivre.getColumns().clear();
+						
+						ArrayList<Document> arrDoc = new ArrayList<>();
+						for (int i = 0; i < ListeLivre.getLstLivreATrouver().size(); i++) {
+							if (ListeLivre.getLstLivreATrouver().get(i).getEtat().equals("Disponible")) {
+								arrDoc.add(ListeLivre.getLstLivreATrouver().get(i));
+							}
+						}
+						documents = FXCollections.observableArrayList(arrDoc);
+						
+						tabLivre.setContent(null);
+						tabLivre.setContent(createTableLivreVBox());
+					}
+					else if (tabPane.getSelectionModel().getSelectedItem() == tabDVD) {
+						tableDVD.getColumns().clear();
+						
+						ArrayList<Document> arrDoc = new ArrayList<>();
+						for (int i = 0; i < ListeDVD.getLstDVDATrouver().size(); i++) {
+							if (ListeDVD.getLstDVDATrouver().get(i).getEtat().equals("Disponible")) {
+								arrDoc.add(ListeDVD.getLstDVDATrouver().get(i));
+							}
+						}
+						documents = null;
+						
+						tabDVD.setContent(null);
+						tabDVD.setContent(createTableDVDVBox());
+					}
+				}
+			}
+		}
 	}
 }

@@ -86,7 +86,7 @@ public class GererLesAdherents extends Stage {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Erreur");
 				alert.setHeaderText("");
-				alert.setContentText("Veuillez séléctionner l'adhérent que vous aimeriez supprimer");
+				alert.setContentText("Veuillez sélectionner l'adhérent que vous aimeriez supprimer");
 				alert.showAndWait();
 			} else {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -120,7 +120,7 @@ public class GererLesAdherents extends Stage {
 				alert.setTitle("Erreur");
 				alert.setHeaderText("");
 				alert.setContentText(
-						"Veuillez séléctionner l'adhérent pour qui vous aimeriez voir les informations détaillées");
+						"Veuillez sélectionner l'adhérent pour qui vous aimeriez voir les informations détaillées");
 				alert.showAndWait();
 			} else {
 				adherentSelectionne = tableAdherent.getSelectionModel().getSelectedItem();

@@ -85,7 +85,7 @@ public class GererLesPrets extends Stage {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Erreur");
 				alert.setHeaderText("Erreur");
-				alert.setContentText("Veuillez séléctionner le prêt de la liste que vous voudriez retourner");
+				alert.setContentText("Veuillez sélectionner le prêt de la liste que vous voudriez retourner");
 				alert.showAndWait();
 			} else {
 				Alert alert = new Alert(AlertType.CONFIRMATION);
